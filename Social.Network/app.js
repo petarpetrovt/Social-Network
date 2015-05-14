@@ -20,27 +20,19 @@
 			})
 			.when('/FriendRequests', {
 				templateUrl: 'views/friendRequests.html',
-				controller: 'MainController'
+				controller: 'friendRequestsController'
 			})
 			.when('/Search/:id', {
 				templateUrl: 'views/searchResults.html',
-				controller: 'MainController'
+				controller: 'searchResultController'
 			})
 			.when('/EditProfile', {
 				templateUrl: 'views/editProfile.html',
-				controller: 'MainController'
+				controller: 'editProfileController'
 			})
 			.when('/ChangePassword', {
 				templateUrl: 'views/changePassword.html',
-				controller: 'MainController'
-			})
-			.when('/Login', {
-				templateUrl: 'views/login.html',
-				controller: 'MainController'
-			})
-			.when('/Register', {
-				templateUrl: 'views/register.html',
-				controller: 'MainController'
+				controller: 'changePasswordController'
 			})
 			.otherwise({ redirectTo: '/' });
 	});
