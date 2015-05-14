@@ -8,11 +8,13 @@
 
 		var serviceUrl = baseServiceUrl;
 
-		service.login = function (loginData, success, error) {
-			$http.post(serviceUrl + '/users/login', loginData)
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(error);
+		service.login = function (username, password, success, error) {
+			$http.post(serviceUrl + '/users/login', {
+				Username: username,
+				Password: password
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(error);
 		};
 
 		service.register = function (registerData, success, error) {
