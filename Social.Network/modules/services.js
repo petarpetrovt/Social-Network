@@ -9,21 +9,21 @@
 		var serviceUrl = baseServiceUrl;
 
 		service.login = function (username, password, success, error) {
-			$http.post(serviceUrl + '/users/login', {
-				Username: username,
-				Password: password
-			}).success(function (data, status, headers, config) {
-				success(data);
-			}).error(error);
+			$http.post(serviceUrl + '/users/Login', { Username: username, Password: password })
+				.success(success)
+				.error(error);
+		};
+
+		service.logout = function (success, error) {
+			var base = this.getBase('POST', serviceUrl + '/users/Logout');
+
+			$http(base).success(success).error(error);
 		};
 
 		service.register = function (registerData, success, error) {
 			$http.post(serviceUrl + '/users/register', registerData)
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
+				.success(success)
+				.error(error);
 		};
 
 		service.editProfile = function (editData, success, error) {
@@ -70,10 +70,20 @@
 			localStorage.clear();
 		};
 
-		service.getHeaders = function () {
+		service.getBase = function (method, url) {
+			var header = this.getHeader();
+
 			return {
-				Authorization: "Bearer " + localStorage['sessionToken']
+				method: method,
+				url: url,
+				headers: {
+					Authorization: header,
+				}
 			};
+		};
+
+		service.getHeader = function () {
+			return "Bearer " + localStorage['sessionToken'];
 		};
 
 		service.isLogged = function () {

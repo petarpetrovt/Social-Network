@@ -35,7 +35,7 @@
 
 			AuthenticationFactory.login($scope.username, $scope.password,
 				function (data) {
-					console.log(data);
+					AuthenticationFactory.setCredentials(data);
 					$.notify('You have successfully logged in.', 'success');
 				}, function () {
 					$.notify('The username or password is incorrect.', 'error');
@@ -68,7 +68,6 @@
 				Gender: $scope.gender
 			}, function (data) {
 				AuthenticationFactory.setCredentials(data);
-				console.log(data);
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
@@ -78,5 +77,13 @@
 
 	app.controller("newsFeedController", function ($scope, AuthenticationFactory) {
 		$scope.username = AuthenticationFactory.getUsername();
+		$scope.logout = function () {
+			AuthenticationFactory.logout(function () {
+				$.notify('You have successfully logged out.', 'success');
+			}, function () {
+				$.notify('Error logging out.', 'error');
+			});
+			AuthenticationFactory.clearCredentials();
+		};
 	});
 }());
