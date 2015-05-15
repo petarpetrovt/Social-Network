@@ -1,0 +1,26 @@
+﻿<form ng-controller="loginController" method="post" role="form">
+	<div class="form-group">
+		<input type="text" ng-model="username" required
+			   tabindex="1"
+			   class="form-control"
+			   placeholder="Username" />
+	</div>
+	<div class="form-group">
+		<input type="password" ng-model="password" ng-minlength="6" ng-maxlength="100" tabindex="2" class="form-control"
+			   placeholder="Password" required />
+	</div>
+	<div class="form-group text-center">
+		<input type="checkbox" ng-model="remember" tabindex="3" />
+		<label for="remember"> Remember Me</label>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<button type="submit" ng-click="login($event)" tabindex="4"
+						class="form-control btn btn-login">
+					Log In
+				</button>
+			</div>
+		</div>
+	</div>
+</form>

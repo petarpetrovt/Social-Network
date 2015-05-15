@@ -3,20 +3,24 @@
 
 	var app = angular.module("app.controllers", []);
 
-	app.controller("homeController", function ($scope) {
-		$scope.isLoginForm = true;
-		$scope.loginLinkClass = 'active';
+	app.controller("homeController", function ($scope, AuthenticationFactory) {
+		if (AuthenticationFactory.isLogged()) {
+			$scope.newsFeed = 'views/newsFeed.html';
+			return;
+		}
+
+		$scope.logInLink = true;
+		$scope.registerLink = false;
+		$scope.loginForm = 'views/forms/loginForm.html';
 
 		$scope.showLogin = function () {
-			$scope.isLoginForm = true;
-			$scope.loginLinkClass = 'active';
-			$scope.registerLinkClass = '';
+			$scope.loginForm = 'views/forms/loginForm.html';
+			$scope.registerForm = '';
 		};
 
 		$scope.showRegister = function () {
-			$scope.isLoginForm = false;
-			$scope.loginLinkClass = '';
-			$scope.registerLinkClass = 'active';
+			$scope.registerForm = 'views/forms/registerForm.html';
+			$scope.loginForm = '';
 		};
 	});
 
@@ -47,7 +51,7 @@
 		$scope.confirmPassword = '';
 		$scope.gender = '0';
 
-		$scope.register = function ($event) {
+		$scope.register = function () {
 			if (!$scope.username
 				|| !$scope.password
 				|| !$scope.email
@@ -63,11 +67,16 @@
 				Email: $scope.email,
 				Gender: $scope.gender
 			}, function (data) {
+				AuthenticationFactory.setCredentials(data);
 				console.log(data);
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
 			});
 		};
+	});
+
+	app.controller("newsFeedController", function ($scope, AuthenticationFactory) {
+		$scope.username = AuthenticationFactory.getUsername();
 	});
 }());

@@ -1,0 +1,45 @@
+﻿<form ng-controller="registerController" method="post" role="form">
+	<div class="form-group">
+		<input type="text" ng-model="fullName"
+			   tabindex="1"
+			   class="form-control"
+			   placeholder="Full Name" />
+	</div>
+	<div class="form-group">
+		<input type="email" ng-model="email" tabindex="2" class="form-control"
+			   placeholder="Email Address" />
+	</div>
+	<div class="form-group">
+		<input type="text" ng-model="username" tabindex="3" class="form-control"
+			   placeholder="Username" />
+	</div>
+	<div class="form-group">
+		<input ng-model="password"
+			   ng-minlength="6"
+			   ng-maxlength="100"
+			   type="password" tabindex="4" class="form-control"
+			   placeholder="Password" />
+	</div>
+	<div class="form-group">
+		<input ng-model="confirmPassword"
+			   ng-minlength="6"
+			   ng-maxlength="100"
+			   type="password" tabindex="4" class="form-control"
+			   placeholder="Confirm Password" />
+	</div>
+	<div class="form-group text-center">
+		<input type="radio" name="gender" ng-model="gender" ng-value="1" /> Male &nbsp;
+		<input type="radio" name="gender" ng-model="gender" ng-value="2" /> Female &nbsp;
+		<input type="radio" name="gender" ng-model="gender" ng-value="0" /> Other &nbsp;
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<button type="submit" ng-click="register()" tabindex="6"
+						class="form-control btn btn-register">
+					Register Now
+				</button>
+			</div>
+		</div>
+	</div>
+</form>

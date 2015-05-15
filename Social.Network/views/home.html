@@ -1,13 +1,15 @@
-<div class="row">
+<div class="row" ng-show="logInLink != null || registerLink != null">
 	<div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3">
 		<div class="panel panel-login">
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-6">
-						<a ng-click="showLogin()" ng-class="loginLinkClass">Login</a>
+						<a ng-click="showLogin(); logInLink = true; registerLink = false;"
+						   ng-class="{ 'active' : logInLink == true }">Login</a>
 					</div>
 					<div class="col-xs-6">
-						<a ng-click="showRegister()" ng-class="registerLinkClass">Register</a>
+						<a ng-click="showRegister(); registerLink = true; logInLink = false;"
+						   ng-class="{ 'active' : registerLink == true }">Register</a>
 					</div>
 				</div>
 				<hr>
@@ -15,88 +17,12 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form ng-controller="loginController" method="post" role="form" ng-show="isLoginForm">
-							<div class="form-group">
-								<input type="text" ng-model="username" required
-									   tabindex="1"
-									   class="form-control"
-									   placeholder="Username" />
-							</div>
-							<div class="form-group">
-								<input type="password" ng-model="password" ng-minlength="6" ng-maxlength="100" tabindex="2" class="form-control"
-									   placeholder="Password" required />
-							</div>
-							<div class="form-group text-center">
-								<input type="checkbox" ng-model="remember" tabindex="3" />
-								<label for="remember"> Remember Me</label>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<button type="submit" ng-click="login($event)" tabindex="4"
-												class="form-control btn btn-login">
-											Log In
-										</button>
-									</div>
-								</div>
-							</div>
-						</form>
-						<form ng-controller="registerController" method="post" role="form" ng-show="!isLoginForm">
-							<div class="form-group">
-								<input type="text" ng-model="fullName"
-									   tabindex="1"
-									   class="form-control"
-									   placeholder="Full Name" />
-							</div>
-							<div class="form-group">
-								<input type="email" ng-model="email" tabindex="2" class="form-control"
-									   placeholder="Email Address" />
-							</div>
-							<div class="form-group">
-								<input type="text" ng-model="username" tabindex="3" class="form-control"
-									   placeholder="Username" />
-							</div>
-							<div class="form-group">
-								<input ng-model="password"
-									   ng-minlength="6"
-									   ng-maxlength="100"
-									   type="password" tabindex="4" class="form-control" 
-									   placeholder="Password" />
-							</div>
-							<div class="form-group">
-								<input ng-model="confirmPassword"
-									   ng-minlength="6"
-									   ng-maxlength="100"
-									   type="password" tabindex="4" class="form-control"
-									   placeholder="Confirm Password" />
-							</div>
-							<div class="form-group text-center">
-								<div class="btn-group" data-toggle="buttons">
-									<label class="btn btn-lg btn-default">
-										<input type="radio" ng-model="gender" ng-value="1" /> Male
-									</label>
-									<label class="btn btn-lg btn-default">
-										<input type="radio" ng-model="gender" ng-value="2" /> Female
-									</label>
-									<label class="btn btn-lg btn-default">
-										<input type="radio" ng-model="gender" ng-value="0" /> Other
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<button type="submit" ng-click="register($event)" tabindex="6"
-												class="form-control btn btn-register">
-											Register Now
-										</button>
-									</div>
-								</div>
-							</div>
-						</form>
+						<div ng-include="loginForm"></div>
+						<div ng-include="registerForm"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="row" ng-include="newsFeed"></div>
