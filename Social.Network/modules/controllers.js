@@ -3,8 +3,8 @@
 
 	var app = angular.module("app.controllers", []);
 
-	app.controller("homeController", function ($scope, AuthenticationFactory) {
-		if (AuthenticationFactory.isLogged()) {
+	app.controller("homeController", function ($scope, UsersFactory, UtilsFactory) {
+		if (UtilsFactory.isLogged()) {
 			$scope.newsFeed = 'views/newsFeed.html';
 			return;
 		}
@@ -24,7 +24,7 @@
 		};
 	});
 
-	app.controller("loginController", function ($scope, AuthenticationFactory) {
+	app.controller("loginController", function ($scope, $route, UsersFactory, UtilsFactory) {
 		$scope.username = '';
 		$scope.password = '';
 		$scope.remember = '';
@@ -33,9 +33,10 @@
 			if (!$scope.username || !$scope.password)
 				return;
 
-			AuthenticationFactory.login($scope.username, $scope.password,
+			UsersFactory.login($scope.username, $scope.password,
 				function (data) {
-					AuthenticationFactory.setCredentials(data);
+					UtilsFactory.setCredentials(data);
+					$route.reload();
 					$.notify('You have successfully logged in.', 'success');
 				}, function () {
 					$.notify('The username or password is incorrect.', 'error');
@@ -43,7 +44,7 @@
 		};
 	});
 
-	app.controller("registerController", function ($scope, AuthenticationFactory) {
+	app.controller("registerController", function ($scope, $route, UsersFactory, UtilsFactory) {
 		$scope.fullName = '';
 		$scope.email = '';
 		$scope.username = '';
@@ -59,7 +60,7 @@
 				|| !$scope.gender)
 				return;
 
-			AuthenticationFactory.register({
+			UsersFactory.register({
 				Username: $scope.username,
 				Password: $scope.password,
 				ConfirmPassword: $scope.confirmPassword,
@@ -67,7 +68,8 @@
 				Email: $scope.email,
 				Gender: $scope.gender
 			}, function (data) {
-				AuthenticationFactory.setCredentials(data);
+				UtilsFactory.setCredentials(data);
+				$route.reload();
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
@@ -75,15 +77,30 @@
 		};
 	});
 
-	app.controller("newsFeedController", function ($scope, AuthenticationFactory) {
-		$scope.username = AuthenticationFactory.getUsername();
+	app.controller("newsFeedController", function ($scope, $route, UsersFactory, PostsFactory, UtilsFactory) {
+		$scope.username = UtilsFactory.getUsername();
 		$scope.logout = function () {
-			AuthenticationFactory.logout(function () {
+			UsersFactory.logout(function () {
+				$route.reload();
 				$.notify('You have successfully logged out.', 'success');
 			}, function () {
 				$.notify('Error logging out.', 'error');
 			});
-			AuthenticationFactory.clearCredentials();
+			UtilsFactory.clearCredentials();
+		};
+
+		$scope.post = function () {
+			PostsFactory.createPost('Test', function (data) {
+				console.log(data);
+			}, function () {
+			});
+		};
+
+		$scope.getPost = function () {
+			PostsFactory.getPost(173, function (data) {
+				console.log(data);
+			}, function () {
+			});
 		};
 	});
 }());

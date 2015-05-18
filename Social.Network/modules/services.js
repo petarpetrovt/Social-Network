@@ -3,55 +3,340 @@
 
 	var app = angular.module("app.services", []);
 
-	app.factory("AuthenticationFactory", function ($http, baseServiceUrl) {
+	app.factory("PostsFactory", function ($http, UtilsFactory, baseServiceUrl) {
 		var service = {};
+		var serviceUrl = baseServiceUrl;
 
+		service.create = function (content, success, error) {
+			$http.post(serviceUrl + '/Posts', {
+				PostContent: content,
+				Username: UtilsFactory.getUsername(),
+			}, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.get = function (id, success, error) {
+			$http.get(serviceUrl + '/Posts/' + id, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.update = function (id, content, success, error) {
+			$http.put(serviceUrl + '/Posts/' + id, {
+				PostContent: content,
+			}, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.delete = function () {
+			$http.delete(serviceUrl + '/Posts/' + id, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.like = function (id, success, error) {
+			$http.post(serviceUrl + '/Posts/' + id + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.getLikesPreview = function (id, success, error) {
+			$http.get(serviceUrl + '/Posts/' + id + '/likes/preview', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.getLikes = function (id, success, error) {
+			$http.get(serviceUrl + '/Posts/' + id + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.deleteLikes = function (id, success, error) {
+			$http.delete(serviceUrl + '/Posts/' + id + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		return service;
+	});
+
+	app.factory("ProfileFactory", function ($http, UtilsFactory, baseServiceUrl) {
+		var service = {};
+		var serviceUrl = baseServiceUrl;
+
+		service.get = function (success, error) {
+			$http.get(serviceUrl + '/me', {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		}
+
+		service.update = function (data, success, error) {
+			$http.put(serviceUrl + '/me', data, {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.changePassword = function (oldPass, newPass, ConPass, success, error) {
+			$http.put(serviceUrl + '/me/changepassword', {
+				OldPassword: oldPass,
+				NewPassword: newPass,
+				ConfirmPassword: ConPass,
+			}, {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		}
+
+		service.getFriends = function (success, error) {
+			$http.get(serviceUrl + '/me/friends', {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.getFriendsPreview = function (success, error) {
+			$http.get(serviceUrl + '/me/friends/preview', {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.getNewsFeed = function (start, count, success, error) {
+			var url = serviceUrl + '/me/feed?PageSize=' + count;
+
+			if (start) {
+				url += '&StartPostId=' + startPostId;
+			}
+
+			$http.get(url, {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.getFriendRequests = function (success, error) {
+			$http.get(serviceUrl + '/me/requests', { headers: UtilsFactory.getHeaders() })
+				.success(function (data, status, headers, config) {
+					success(data);
+				}).error(function (data) {
+					error(data);
+				});
+		};
+
+		service.sendFriendRequest = function (success, error) {
+			$http.post(serviceUrl + '/me/requests/' + UtilsFactory.getUsername(), {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		};
+
+		service.acceptFriendRequest = function (id, success, error) {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', {}, {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		}
+
+		service.rejectFriendRequest = function (id, success, error) {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=delete', {}, {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
+		}
+
+		return service;
+	});
+
+	app.factory("UsersFactory", function ($http, UtilsFactory, baseServiceUrl) {
+		var service = {};
 		var serviceUrl = baseServiceUrl;
 
 		service.login = function (username, password, success, error) {
-			$http.post(serviceUrl + '/users/Login', { Username: username, Password: password })
-				.success(success)
-				.error(error);
+			$http.post(serviceUrl + '/users/Login', {
+				Username: username, Password: password
+			}).success(success).error(error);
 		};
 
 		service.logout = function (success, error) {
-			var base = this.getBase('POST', serviceUrl + '/users/Logout');
-
+			var base = UtilsFactory.getBase('POST', serviceUrl + '/users/Logout');
 			$http(base).success(success).error(error);
 		};
 
 		service.register = function (registerData, success, error) {
 			$http.post(serviceUrl + '/users/register', registerData)
-				.success(success)
-				.error(error);
+				.success(success).error(error);
 		};
 
-		service.editProfile = function (editData, success, error) {
-			$http.put(serviceUrl + '/me', editData, { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
+		service.preview = function (username, success, error) {
+			$http.get(serviceUrl + '/users/' + username + '/preview', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
 
-		service.changePassword = function (data, success, error) {
-			$http.put(serviceUrl + '/me/changepassword', data, { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
+		service.search = function (keyword, success, error) {
+			$http.get(serviceUrl + '/users/search?searchTerm=' + keyword, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
 
-		service.getDataAboutMe = function (success, error) {
-			$http.get(serviceUrl + '/me', { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
+		service.get = function (username, success, error) {
+			$http.get(serviceUrl + '/users/' + username, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getUserPosts = function (username, start, count, success, error) {
+			var url = serviceUrl + '/users/' + username + '/wall?PageSize=' + count;
+
+			if (start) {
+				url += '&StartPostId=' + start;
+			}
+
+			$http.get(url, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getUserFrindsPreview = function (username, success, error) {
+			$http.get(serviceUrl + '/users/' + username + 'friends/preview', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getUserFrinds = function (username, success, error) {
+			$http.get(serviceUrl + '/users/' + username + 'friends', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		return service;
+	});
+
+	app.factory("CommentsFactory", function ($http, UtilsFactory, baseServiceUrl) {
+		var service = {};
+		var serviceUrl = baseServiceUrl;
+
+		service.create = function (content, postId, success, error) {
+			$http.post(serviceUrl + '/posts/' + postId + '/comments', {
+				CommentContent: content,
+			}, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.update = function (commentId, postId, content, success, error) {
+			$http.put(serviceUrl + '/posts/' + postId + '/comments/' + commentId, {
+				CommentContent: content,
+			}, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.delete = function (commentId, postId, success, error) {
+			$http.delete(serviceUrl + '/posts/' + postId + '/comments/' + commentId, {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getPostComments = function (postId, success, error) {
+			$http.get(serviceUrl + '/posts/' + postId + '/comments', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getPostCommentLikes = function (postId, commentId, success, error) {
+			$http.get(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.getPostCommentLikesPreview = function (postId, commentId, success, error) {
+			$http.get(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes/preview', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.likePostComment = function (postId, commentId, success, error) {
+			$http.post(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		service.deletePostCommentLike = function (postId, commentId, success, error) {
+			$http.delete(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
+				headers: UtilsFactory.getHeaders(),
+			}).success(success).error(error);
+		};
+
+		return service;
+	});
+
+	app.factory("UtilsFactory", function () {
+		var service = {};
 
 		service.setCredentials = function (serverData) {
 			localStorage['sessionToken'] = serverData.access_token;
@@ -86,58 +371,14 @@
 			return "Bearer " + localStorage['sessionToken'];
 		};
 
-		service.isLogged = function () {
-			return !!localStorage['sessionToken'];
-		};
-
-		return service;
-	});
-
-	app.factory("FriendsFactory", function ($http, baseServiceUrl) {
-		var service = {};
-
-		var serviceUrl = baseServiceUrl;
-
-		service.getFriendRequests = function (success, error) {
-			$http.get(serviceUrl + '/me/requests', { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
-
-		service.sendFriendRequest = function (username, success, error) {
-			$http.post(serviceUrl + '/me/requests/' + username, { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
-
-		service.acceptFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', {}, { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
-
-		service.rejectFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=delete', {}, { headers: this.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
-		}
-
 		service.getHeaders = function () {
 			return {
 				Authorization: "Bearer " + localStorage['sessionToken']
 			};
+		};
+
+		service.isLogged = function () {
+			return !!localStorage['sessionToken'];
 		};
 
 		return service;
