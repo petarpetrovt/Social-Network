@@ -1,4 +1,9 @@
-<div class="row" ng-show="logInLink != null || registerLink != null">
+<div class="row text-center" ng-if="showTitle">
+	<div class="col-md-12">
+		<h1 class="title">Social Network</h1>
+	</div>
+</div>
+<div class="row" ng-if="logInLink != null || registerLink != null">
 	<div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3">
 		<div class="panel panel-login">
 			<div class="panel-heading">
@@ -25,4 +30,5 @@
 		</div>
 	</div>
 </div>
+<div ng-include="menu" ng-controller="menuController"></div>
 <div class="row" ng-include="newsFeed"></div>

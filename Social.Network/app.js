@@ -36,4 +36,8 @@
 			})
 			.otherwise({ redirectTo: '/' });
 	});
+
+	//app.run(function ($rootScope) {
+	//	$rootScope.showMenu = false;
+	//});
 }());

@@ -5,10 +5,12 @@
 
 	app.controller("homeController", function ($scope, UsersFactory, UtilsFactory) {
 		if (UtilsFactory.isLogged()) {
+			$scope.menu = 'views/forms/menu.html';
 			$scope.newsFeed = 'views/newsFeed.html';
 			return;
 		}
 
+		$scope.showTitle = true;
 		$scope.logInLink = true;
 		$scope.registerLink = false;
 		$scope.loginForm = 'views/forms/loginForm.html';
@@ -24,7 +26,7 @@
 		};
 	});
 
-	app.controller("loginController", function ($scope, $route, UsersFactory, UtilsFactory) {
+	app.controller("loginController", function ($scope, UsersFactory, UtilsFactory) {
 		$scope.username = '';
 		$scope.password = '';
 		$scope.remember = '';
@@ -36,7 +38,7 @@
 			UsersFactory.login($scope.username, $scope.password,
 				function (data) {
 					UtilsFactory.setCredentials(data);
-					$route.reload();
+					UtilsFactory.refresh();
 					$.notify('You have successfully logged in.', 'success');
 				}, function () {
 					$.notify('The username or password is incorrect.', 'error');
@@ -44,7 +46,7 @@
 		};
 	});
 
-	app.controller("registerController", function ($scope, $route, UsersFactory, UtilsFactory) {
+	app.controller("registerController", function ($scope, UsersFactory, UtilsFactory) {
 		$scope.fullName = '';
 		$scope.email = '';
 		$scope.username = '';
@@ -69,7 +71,7 @@
 				Gender: $scope.gender
 			}, function (data) {
 				UtilsFactory.setCredentials(data);
-				$route.reload();
+				UtilsFactory.refresh();
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
@@ -77,30 +79,30 @@
 		};
 	});
 
-	app.controller("newsFeedController", function ($scope, $route, UsersFactory, PostsFactory, UtilsFactory) {
+	app.controller("menuController", function ($scope, UtilsFactory, UsersFactory, ProfileFactory) {
+		if (UtilsFactory.isLogged()) {
+			$scope.showMenu = true;
+			$scope.profileImage = 'images/avatar.gif';
+
+			ProfileFactory.get(function (data) {
+				$scope.fullName = data.name;
+			}, function (data) {
+				console.log(data);
+			});
+
+			$scope.logout = function () {
+				UsersFactory.logout(function () {
+					UtilsFactory.clearCredentials();
+					UtilsFactory.refresh();
+					$.notify('You have successfully logged out.', 'success');
+				}, function () {
+					$.notify('Error logging out.', 'error');
+				});
+			};
+		}
+	});
+
+	app.controller("newsFeedController", function ($scope, PostsFactory, UtilsFactory) {
 		$scope.username = UtilsFactory.getUsername();
-		$scope.logout = function () {
-			UsersFactory.logout(function () {
-				$route.reload();
-				$.notify('You have successfully logged out.', 'success');
-			}, function () {
-				$.notify('Error logging out.', 'error');
-			});
-			UtilsFactory.clearCredentials();
-		};
-
-		$scope.post = function () {
-			PostsFactory.createPost('Test', function (data) {
-				console.log(data);
-			}, function () {
-			});
-		};
-
-		$scope.getPost = function () {
-			PostsFactory.getPost(173, function (data) {
-				console.log(data);
-			}, function () {
-			});
-		};
 	});
 }());

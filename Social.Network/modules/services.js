@@ -335,7 +335,7 @@
 		return service;
 	});
 
-	app.factory("UtilsFactory", function () {
+	app.factory("UtilsFactory", function ($route) {
 		var service = {};
 
 		service.setCredentials = function (serverData) {
@@ -345,6 +345,10 @@
 
 		service.setProfileImage = function (profileImage) {
 			localStorage['profileImage'] = profileImage;
+		}
+
+		service.getProfileImage = function () {
+			return localStorage['profileImage'];
 		}
 
 		service.getUsername = function () {
@@ -379,6 +383,10 @@
 
 		service.isLogged = function () {
 			return !!localStorage['sessionToken'];
+		};
+
+		service.refresh = function () {
+			$route.reload();
 		};
 
 		return service;

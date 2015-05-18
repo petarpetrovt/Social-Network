@@ -1,9 +1,15 @@
 body {
-	padding-top: 90px;
+	/*padding-top: 90px;*/
 }
 
 a {
 	cursor: pointer;
+}
+
+h1.title {
+	padding-top: 50px;
+	padding-bottom: 20px;
+	color: #029f5b !important;
 }
 
 nav.navbar > div {
@@ -106,7 +112,7 @@ nav.navbar .navbar-brand {
 	}
 
 .btn-register {
-	background-color: #1CB94E;
+	background-color: #029f5b;
 	outline: none;
 	color: #fff;
 	font-size: 14px;
@@ -114,12 +120,53 @@ nav.navbar .navbar-brand {
 	font-weight: normal;
 	padding: 14px 0;
 	text-transform: uppercase;
-	border-color: #1CB94A;
+	border-color: #029f5b;
 }
 
 	.btn-register:hover,
 	.btn-register:focus {
 		color: #fff;
-		background-color: #1CA347;
-		border-color: #1CA347;
+		background-color: #029f5b;
+		border-color: #029f5b;
+	}
+
+.profileImage {
+	margin-top: -6px;
+	margin-right: 10px;
+	width: 32px;
+	height: 32px;
+	background-color: #ffffff;
+}
+
+ul.nav > li:nth-child(2n+1) {
+	background-color: #ffffff;
+}
+
+ul.nav > li > a {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+	ul.nav > li > a:hover {
+		background-color: #ffffff;
+		color: #029f5b;
+		-webkit-transition: 1000ms linear;
+		-moz-transition: 1000ms linear;
+		-o-transition: 1000ms linear;
+		-ms-transition: 1000ms linear;
+		transition: 1000ms linear;
+	}
+
+ul.nav > li:nth-child(2n+1) > a {
+	color: #029f5b;
+}
+
+	ul.nav > li:nth-child(2n+1) > a:hover {
+		background-color: #029f5b;
+		color: #ffffff;
+		-webkit-transition: 1000ms linear;
+		-moz-transition: 1000ms linear;
+		-o-transition: 1000ms linear;
+		-ms-transition: 1000ms linear;
+		transition: 1000ms linear;
 	}
