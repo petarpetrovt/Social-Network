@@ -3,23 +3,43 @@
 
 	var app = angular.module("app.directives", []);
 
-	app.directive('inputtext', function ($timeout) {
+	app.directive('posts', function () {
 		return {
-			restrict: 'E',
+			restrict: 'EA',
 			replace: true,
-			template: '<input type="text"/>',
 			scope: {
-				//if there were attributes it would be shown here
+				datasource: '=',
 			},
-			link: function (scope, element, attrs, ctrl) {
-				// DOM manipulation may happen here.
-			}
+			controller: function ($scope, ProfileFactory) {
+				$scope.posts = [];
+
+				ProfileFactory.getNewsFeed(null, 10, function (data) {
+					console.log(data);
+				}, function () {
+					console.log(data);
+				});
+			},
+			templateUrl: '../views/directives/posts.html'
 		}
 	});
 
-	app.directive('version', function (version) {
-		return function (scope, elm, attrs) {
-			elm.text(version);
-		};
+	app.directive('search', function () {
+		return {
+			restrict: 'EA',
+			replace: true,
+			scope: {
+				'search': '&onSearch'
+			},
+			controller: function ($scope) {
+				$scope.search = function () {
+					console.log('asd');
+				};
+
+				$scope.doSearch = function () {
+					console.log('asdasdas');
+				};
+			},
+			templateUrl: '../views/directives/search.html'
+		}
 	});
 }());

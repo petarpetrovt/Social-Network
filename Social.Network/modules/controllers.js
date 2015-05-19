@@ -90,6 +90,14 @@
 				console.log(data);
 			});
 
+			$scope.search = function () {
+				console.log('test');
+			};
+
+			$scope.doSearch = function () {
+				console.log('doSearch');
+			};
+
 			$scope.logout = function () {
 				UsersFactory.logout(function () {
 					UtilsFactory.clearCredentials();
