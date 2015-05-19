@@ -1,5 +1,9 @@
-body {
-	/*padding-top: 90px;*/
+* {
+	border-radius: 0px !important;
+}
+
+body, html, .height-max {
+	height: 100%;
 }
 
 a {
@@ -12,10 +16,15 @@ h1.title {
 	color: #029f5b !important;
 }
 
-nav.navbar > div {
+.main-menu {
 	background-color: #029f5b;
 	color: white !important;
+	border: none;
 }
+
+	.main-menu span {
+		background-color: #ffffff;
+	}
 
 nav.navbar .navbar-brand {
 	color: #ffffff !important;
@@ -135,11 +144,35 @@ nav.navbar .navbar-brand {
 	margin-right: 10px;
 	width: 32px;
 	height: 32px;
-	background-color: #ffffff;
+}
+
+.post-img {
+	width: 32px;
+	height: 32px;
+}
+
+.post-title {
+	color: #029f5b;
 }
 
 ul.nav > li:nth-child(2n+1) {
 	background-color: #ffffff;
+}
+
+.custom-heading {
+	border: none !important;
+	background-color: #ffffff !important;
+	border-bottom: 2px solid #029f5b !important;
+}
+
+.custom-footer {
+	border: none !important;
+	border-top: 2px solid #029f5b !important;
+	background-color: #ffffff !important;
+}
+
+.custom-default {
+	color: #000000 !important;
 }
 
 ul.nav > li > a {
@@ -170,3 +203,59 @@ ul.nav > li:nth-child(2n+1) > a {
 		-ms-transition: 1000ms linear;
 		transition: 1000ms linear;
 	}
+
+.header-title, .header-side {
+	background-color: #029f5b;
+	color: #ffffff;
+}
+
+	.header-title h3, .header-side h3 {
+		font-weight: bold;
+	}
+
+.header-container {
+	background-color: #ffffff;
+	border: 2px solid #029f5b;
+	padding: 0px;
+}
+
+.friends-list {
+	display: flex;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+	.friends-list > li {
+		display: inline-block;
+		margin: 0px;
+		border: 0px;
+		width: 25%;
+	}
+
+		.friends-list > li > img {
+			width: 100%;
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
+
+.post {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.glyphicon {
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.responsive-padding {
+	padding-top: 90px !important;
+}
+
+@media(max-width:768px) {
+	.responsive-padding {
+		padding-top: 50px !important;
+	}
+}

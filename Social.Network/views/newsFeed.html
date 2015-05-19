@@ -1,5 +1,70 @@
-﻿<div ng-controller="newsFeedController" class="row" style="padding-top:90px;">
-	<div class="col-md-12">
-		{{ username }}
+﻿<div class="responsive-padding height-max" ng-controller="newsFeedController">
+	<div class="row height-max">
+		<div class="col-md-9 col-sm-9">
+			<div class="col-md-12 height-max header-title">
+				<h3>News Feed</h3>
+				<div class="panel panel-default custom-default">
+					<div class="panel-heading custom-heading">
+						<h3 class="panel-title post-title">
+							<img class="post-img" src="../images/avatar.gif" />
+							Petar Petrov
+						</h3>
+						1 Jan 2015 18:22:35
+					</div>
+					<div class="panel-body">
+						Post content
+					</div>
+					<div class="panel-footer custom-footer">
+						<span class="num">231</span>
+						<button class="btn btn-primary btn-xs" title="Like">
+							<i class="glyphicon glyphicon-thumbs-up"></i>
+							Like
+						</button>
+						<span class="num">4</span>
+						<button class="btn btn-primary btn-xs" title="Comment">
+							<i class="glyphicon glyphicon-comment"></i>
+							Comment
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3">
+			<div class="col-md-12 header-side">
+				<h3>Friends</h3>
+				<div class="row">
+					<div class="col-md-12 header-container">
+						<ul class="friends-list">
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+						</ul>
+						<ul class="friends-list">
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+							<li>
+								<img src="../images/avatar.gif" />
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
