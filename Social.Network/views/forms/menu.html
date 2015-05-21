@@ -7,12 +7,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#/">
+			<a class="navbar-brand" href="#/users/{{ username }}">
 				<div class="row row-filter">
 					<div class="col-md-12">
 						<image ng-src="{{ profileImage }}" class="profileImage"
 							   title="fullName" alt="Profile image." />
-						<p style="float:right;">{{ fullName }}</p>
+						<p style="float:right;">
+							{{ fullName }}
+						</p>
 					</div>
 				</div>
 			</a>
@@ -20,10 +22,25 @@
 		<div id="mainMenuCollapse" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li>
-					<a ng-click="">Messages</a>
+					<a href="#/">Feed</a>
 				</li>
 				<li>
-					<a ng-click="">Friends</a>
+					<a href="#/messages">Messages</a>
+				</li>
+				<li>
+					<a href="#/frieds">Friends</a>
+				</li>
+				<li>
+					<a id="dropdownMenu1" data-toggle="dropdown" data-hover="dropdown"
+					   aria-expanded="true">Settings</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#/profile">Edit Profile</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#/profile/password">Change Password</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a ng-click="logout();">Logout</a>

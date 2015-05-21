@@ -36,8 +36,12 @@
 
 				$scope.search = function () {
 					var value = $scope.value.trim();
+					$scope.showClear = false;
+
 					if (!value)
 						return;
+
+					$scope.showClear = true;
 
 					UsersFactory.search($scope.value, function (data) {
 						$scope.results = data;
@@ -47,6 +51,7 @@
 				};
 
 				$scope.clear = function () {
+					$scope.showClear = false;
 					$scope.value = null;
 					$scope.results = null;
 				};

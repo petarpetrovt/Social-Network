@@ -4,8 +4,11 @@
 			<input ng-keyup="search();" ng-model="value" type="text"
 				   class="form-control" placeholder="Search" />
 			<div class="input-group-btn">
-				<button ng-click="clear();" class="btn btn-default" type="submit">
+				<button ng-show="showClear" ng-click="clear();" class="btn btn-default">
 					<i class="glyphicon glyphicon-remove"></i>
+				</button>
+				<button class="btn btn-default">
+					<i class="glyphicon glyphicon-search"></i>
 				</button>
 			</div>
 		</div>

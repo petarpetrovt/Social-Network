@@ -1,23 +1,44 @@
-<h1>VIEW 1</h1>
-<div>
-<div class="col-md-3">
-	<h2>AngularJS 1.1.5</h2>
-	<p>AngularJS is a toolset for building the framework most suited to your application development.</p>
-	<p><a class="btn" href="http://angularjs.org/">View details &raquo;</a></p>
-</div><!--/span-->
-<div class="col-md-3">
-	<h2>jQuery 2.1.1</h2>
-	<p>jQuery is a fast, small, and feature-rich JavaScript library.</p>
-	<p><a class="btn" href="http://jquery.com/">View details &raquo;</a></p>
-</div><!--/span-->
-<div class="col-md-3">
-	<h2>Bootstrap 3.3.0</h2>
-	<p>Sleek, intuitive, and powerful front-end framework for faster and easier web development.</p>
-	<p><a class="btn" href="http://getbootstrap.com/">View details &raquo;</a></p>
-</div><!--/span-->
-<div class="col-md-3">
-	<h2>Flat UI</h2>
-	<p>Flat UI Kit - HTML/PSD Design Framework</p>
-	<p><a class="btn" href="http://designmodo.github.io/Flat-UI/">View details &raquo;</a></p>
-</div><!--/span-->
+<div ng-include="menu" ng-controller="menuController"></div>
+<div class="responsive-padding row">
+	<div class="col-md-2">
+		<image src="{{profileImage}}" title="fullName" alt="Profile image." />
+		<br />
+		<br />
+		<input type="file" />
+		<p class="help-block">
+			Profile image <br />
+			Allowed format: .jpg <br />
+			Limit: 128kb <br />
+		</p>
+	</div>
+	<div class="col-md-10">
+		<form>
+			<div class="form-group">
+				<button type="button" class="btn btn-primary" ng-click="edit();">Save</button>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Name" ng-model="name">
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" placeholder="Email" ng-model="email">
+			</div>
+			<div class="form-group">
+				<input type="radio" name="gender" ng-model="gender" ng-value="1" /> Male &nbsp;
+				<input type="radio" name="gender" ng-model="gender" ng-value="2" /> Female &nbsp;
+				<input type="radio" name="gender" ng-model="gender" ng-value="0" /> Other &nbsp;
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+					<input type="file" />
+					<p class="help-block">
+						Cover image <br />
+						Limit: 1024kb <br />
+					</p>
+				</div>
+				<div class="col-md-8 {{ default }}">
+					<img src="{{ coverImageData }}" />
+				</div>
+			</div>
+		</form>
+	</div>
 </div>

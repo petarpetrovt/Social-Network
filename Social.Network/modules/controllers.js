@@ -86,6 +86,7 @@
 
 			ProfileFactory.get(function (data) {
 				$scope.fullName = data.name;
+				$scope.username = data.username;
 			}, function (data) {
 				console.log(data);
 			});
@@ -121,11 +122,63 @@
 		//profileImageData
 		//username
 		UsersFactory.get(username, function (data) {
-			$scope.coverImageData = data.coverImageData;
+			if (!data.coverImageData)
+				$scope.default = 'cover-default';
+			else
+				$scope.coverImageData = data.coverImageData;
+
 		}, function (data) {
 			console.log(data);
 		});
 
 		$scope.username = username;
+	});
+
+	app.controller("editProfileController", function ($scope, $location, UtilsFactory, ProfileFactory) {
+		if (!UtilsFactory.isLogged())
+			$location.path('/');
+
+		$scope.menu = 'views/forms/menu.html';
+
+		ProfileFactory.get(function (data) {
+			$scope.email = data.email;
+			$scope.name = data.name;
+			$scope.gender = data.gender;
+
+			if (!data.profileImageData && data.profileImageData != null)
+				$scope.profileImage = data.profileImageData;
+			else
+				$scope.profileImage = '../../images/avatar.gif';
+
+			if (!data.coverImageData && data.coverImageData != null)
+				$scope.coverImageData = data.coverImageData;
+			else
+				$scope.default = 'cover-default';
+		}, function (data) {
+			console.log(data);
+		});
+
+
+		$scope.edit = function () {
+			var data = {
+				name: $scope.name,
+				email: $scope.email,
+				gender: $scope.gender
+			};
+			console.log(data);
+			ProfileFactory.update(data, function (data) {
+				$location.path('/');
+				$.notify('You have successfully edited your profile.', 'success');
+			}, function (data) {
+				console.log(data);
+			});
+		};
+	});
+
+	app.controller("editPasswordController", function ($scope, $location, UtilsFactory) {
+		if (!UtilsFactory.isLogged())
+			$location.path('/');
+
+		$scope.menu = 'views/forms/menu.html';
 	});
 }());

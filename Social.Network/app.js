@@ -22,21 +22,13 @@
 				templateUrl: 'views/wall.html',
 				controller: 'wallController'
 			})
-			.when('/FriendRequests', {
-				templateUrl: 'views/friendRequests.html',
-				controller: 'friendRequestsController'
-			})
-			.when('/Search/:id', {
-				templateUrl: 'views/searchResults.html',
-				controller: 'searchResultController'
-			})
-			.when('/EditProfile', {
+			.when('/profile', {
 				templateUrl: 'views/editProfile.html',
 				controller: 'editProfileController'
 			})
-			.when('/ChangePassword', {
+			.when('/profile/password', {
 				templateUrl: 'views/changePassword.html',
-				controller: 'changePasswordController'
+				controller: 'editPasswordController'
 			})
 			.otherwise({ redirectTo: '/' });
 	});
