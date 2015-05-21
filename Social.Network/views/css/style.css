@@ -26,6 +26,21 @@ h1.title {
 		background-color: #ffffff;
 	}
 
+.output {
+	position: absolute;
+	background-color: #029f5b;
+}
+
+	.output > p.option {
+		font-weight: bold;
+		margin: 10px 0px 10px 0px;
+	}
+
+		.output > p.option:hover {
+			color: #000000;
+			cursor: pointer;
+		}
+
 nav.navbar .navbar-brand {
 	color: #ffffff !important;
 	font-weight: 600;
@@ -258,8 +273,21 @@ ul.nav > li:nth-child(2n+1) > a {
 	padding-top: 90px !important;
 }
 
+.row-width-max {
+	margin: -40px -30px 0px -30px !important;
+}
+
+/*.row-width-max > div {
+		float: left !important;
+		width: 100% !important;
+	}*/
+
 @media(max-width:768px) {
 	.responsive-padding {
 		padding-top: 50px !important;
+	}
+
+	.row-width-max {
+		margin: 0px -30px 0px -30px !important;
 	}
 }

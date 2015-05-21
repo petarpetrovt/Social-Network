@@ -18,6 +18,10 @@
 				templateUrl: 'views/home.html',
 				controller: 'homeController'
 			})
+			.when('/users/:username', {
+				templateUrl: 'views/wall.html',
+				controller: 'wallController'
+			})
 			.when('/FriendRequests', {
 				templateUrl: 'views/friendRequests.html',
 				controller: 'friendRequestsController'

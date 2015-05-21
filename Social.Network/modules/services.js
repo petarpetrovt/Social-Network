@@ -341,6 +341,11 @@
 		service.setCredentials = function (serverData) {
 			localStorage['sessionToken'] = serverData.access_token;
 			localStorage['username'] = serverData.userName;
+
+			var now = Date.now();
+			now += serverData.expires_in;
+			
+			localStorage['expires'] = new Date(now);
 		};
 
 		service.setProfileImage = function (profileImage) {
@@ -382,7 +387,11 @@
 		};
 
 		service.isLogged = function () {
-			return !!localStorage['sessionToken'];
+			var session = localStorage['sessionToken'];
+			var expires = localStorage['expires'];
+			var isExpired = Date.now() < expires;
+			
+			return !!session && !isExpired;
 		};
 
 		service.refresh = function () {

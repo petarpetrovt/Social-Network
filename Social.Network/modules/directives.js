@@ -27,16 +27,28 @@
 		return {
 			restrict: 'EA',
 			replace: true,
-			scope: {
-				'search': '&onSearch'
-			},
-			controller: function ($scope) {
-				$scope.search = function () {
-					console.log('asd');
+			controller: function ($scope, $location, UsersFactory) {
+				$scope.value = null;
+
+				$scope.viewPerson = function (username) {
+					$location.path('/users/' + username);
 				};
 
-				$scope.doSearch = function () {
-					console.log('asdasdas');
+				$scope.search = function () {
+					var value = $scope.value.trim();
+					if (!value)
+						return;
+
+					UsersFactory.search($scope.value, function (data) {
+						$scope.results = data;
+					}, function (data) {
+						console.log(data);
+					});
+				};
+
+				$scope.clear = function () {
+					$scope.value = null;
+					$scope.results = null;
 				};
 			},
 			templateUrl: '../views/directives/search.html'

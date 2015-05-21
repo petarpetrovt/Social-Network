@@ -90,14 +90,6 @@
 				console.log(data);
 			});
 
-			$scope.search = function () {
-				console.log('test');
-			};
-
-			$scope.doSearch = function () {
-				console.log('doSearch');
-			};
-
 			$scope.logout = function () {
 				UsersFactory.logout(function () {
 					UtilsFactory.clearCredentials();
@@ -112,5 +104,28 @@
 
 	app.controller("newsFeedController", function ($scope, PostsFactory, UtilsFactory) {
 		$scope.username = UtilsFactory.getUsername();
+	});
+
+	app.controller("wallController", function ($scope, $location, $routeParams, UsersFactory, UtilsFactory) {
+		var username = $routeParams.username;
+		if (!UtilsFactory.isLogged() || !username)
+			$location.path('/');
+
+		$scope.menu = 'views/forms/menu.html';
+
+		//coverImageData
+		//gender
+		//hasPendingRequest
+		//isFrined
+		//name
+		//profileImageData
+		//username
+		UsersFactory.get(username, function (data) {
+			$scope.coverImageData = data.coverImageData;
+		}, function (data) {
+			console.log(data);
+		});
+
+		$scope.username = username;
 	});
 }());
