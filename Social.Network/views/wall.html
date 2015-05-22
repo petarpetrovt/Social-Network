@@ -3,6 +3,12 @@
 	<div class="row row-width-max">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 {{ default }}" style="text-align:center;">
 			<img src="{{ coverImageData }}" class="cover-image" />
+			<img src="{{ profileImageData }}" class="cover-profileImage" />
+			<h2 class="cover-title"> {{ name }}</h2>
+			<button ng-if="!isFriend" ng-click="request();"
+					class="btn btn-primary cover-friendRequestButton">
+				Send Friend Request
+			</button>
 		</div>
 	</div>
 	<div class="row height-max">

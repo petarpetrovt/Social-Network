@@ -178,8 +178,8 @@
 				});
 		};
 
-		service.sendFriendRequest = function (success, error) {
-			$http.post(serviceUrl + '/me/requests/' + UtilsFactory.getUsername(), {
+		service.sendFriendRequest = function (username, success, error) {
+			$http.post(serviceUrl + '/me/requests/' + username, {
 				headers: UtilsFactory.getHeaders()
 			}).success(function (data, status, headers, config) {
 				success(data);
@@ -344,7 +344,7 @@
 
 			var now = Date.now();
 			now += serverData.expires_in;
-			
+
 			localStorage['expires'] = new Date(now);
 		};
 
@@ -390,12 +390,16 @@
 			var session = localStorage['sessionToken'];
 			var expires = localStorage['expires'];
 			var isExpired = Date.now() < expires;
-			
+
 			return !!session && !isExpired;
 		};
 
 		service.refresh = function () {
 			$route.reload();
+		};
+
+		service.isMe = function (username) {
+			return localStorage['username'] === username;
 		};
 
 		return service;

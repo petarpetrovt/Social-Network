@@ -297,6 +297,26 @@ ul.nav > li:nth-child(2n+1) > a {
 	height: 200px;
 }
 
+.cover-profileImage {
+	position: absolute;
+	left: 48px;
+	top: 30px;
+	width: 128px;
+	height: 128px;
+}
+
+.cover-friendRequestButton {
+	position: absolute;
+	left: 190px;
+	top: 100px;
+}
+
+.cover-title {
+	position: absolute;
+	left: 187px;
+	top: 39px;
+}
+
 /*.row-width-max > div {
 		float: left !important;
 		width: 100% !important;

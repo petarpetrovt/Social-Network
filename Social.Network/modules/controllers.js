@@ -103,35 +103,53 @@
 		}
 	});
 
-	app.controller("newsFeedController", function ($scope, PostsFactory, UtilsFactory) {
-		$scope.username = UtilsFactory.getUsername();
+	app.controller("newsFeedController", function ($scope, ProfileFactory, UtilsFactory) {
+		if (!UtilsFactory.isLogged())
+			return;
+
+		ProfileFactory.getNewsFeed(null, 10, function (data) {
+			$scope.data = data;
+		}, function () {
+			console.log(data);
+		});
 	});
 
-	app.controller("wallController", function ($scope, $location, $routeParams, UsersFactory, UtilsFactory) {
+	app.controller("wallController", function ($scope, $location, $routeParams, ProfileFactory, UsersFactory, UtilsFactory) {
 		var username = $routeParams.username;
 		if (!UtilsFactory.isLogged() || !username)
 			$location.path('/');
 
 		$scope.menu = 'views/forms/menu.html';
+		$scope.username = username;
 
-		//coverImageData
-		//gender
-		//hasPendingRequest
-		//isFrined
-		//name
-		//profileImageData
-		//username
 		UsersFactory.get(username, function (data) {
 			if (!data.coverImageData)
 				$scope.default = 'cover-default';
 			else
 				$scope.coverImageData = data.coverImageData;
 
+			if (!data.profileImageData)
+				$scope.profileImageData = '../../images/avatar.gif';
+			else
+				$scope.profileImageData = data.profileImageData;
+
+			$scope.name = data.name;
+
+			if (UtilsFactory.isMe(username) || data.hasPendingRequest)
+				$scope.isFriend = true;
+			else
+				$scope.isFriend = data.isFriend;
 		}, function (data) {
 			console.log(data);
 		});
 
-		$scope.username = username;
+		$scope.request = function () {
+			ProfileFactory.sendFriendRequest(username, function (data) {
+				console.log(data);
+			}, function (data) {
+				console.log(data);
+			});
+		};
 	});
 
 	app.controller("editProfileController", function ($scope, $location, UtilsFactory, ProfileFactory) {
@@ -145,12 +163,12 @@
 			$scope.name = data.name;
 			$scope.gender = data.gender;
 
-			if (!data.profileImageData && data.profileImageData != null)
+			if (!data.profileImageData && data.profileImageData !== null)
 				$scope.profileImage = data.profileImageData;
 			else
 				$scope.profileImage = '../../images/avatar.gif';
 
-			if (!data.coverImageData && data.coverImageData != null)
+			if (!data.coverImageData && data.coverImageData !== null)
 				$scope.coverImageData = data.coverImageData;
 			else
 				$scope.default = 'cover-default';
@@ -175,10 +193,30 @@
 		};
 	});
 
-	app.controller("editPasswordController", function ($scope, $location, UtilsFactory) {
+	app.controller("editPasswordController", function ($scope, $location, UtilsFactory, ProfileFactory) {
 		if (!UtilsFactory.isLogged())
 			$location.path('/');
 
 		$scope.menu = 'views/forms/menu.html';
+
+		$scope.oldPassword = '';
+		$scope.newPassword = '';
+		$scope.conPassword = '';
+
+		$scope.changePassword = function () {
+			if (!$scope.oldPassword
+				|| !$scope.newPassword
+				|| !$scope.conPassword)
+				return;
+
+			ProfileFactory.changePassword($scope.oldPassword, $scope.newPassword,
+				$scope.conPassword, function (data) {
+					$location.path('/');
+					UtilsFactory.refresh();
+					$.notify('You have successfully changed your password.', 'success');
+				}, function (data) {
+					console.log(data);
+				});
+		};
 	});
 }());

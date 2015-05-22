@@ -8,16 +8,7 @@
 			restrict: 'EA',
 			replace: true,
 			scope: {
-				datasource: '=',
-			},
-			controller: function ($scope, ProfileFactory) {
-				$scope.posts = [];
-
-				ProfileFactory.getNewsFeed(null, 10, function (data) {
-					console.log(data);
-				}, function () {
-					console.log(data);
-				});
+				posts: '=',
 			},
 			templateUrl: '../views/directives/posts.html'
 		}
