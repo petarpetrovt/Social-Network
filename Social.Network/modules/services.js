@@ -170,12 +170,13 @@
 		};
 
 		service.getFriendRequests = function (success, error) {
-			$http.get(serviceUrl + '/me/requests', { headers: UtilsFactory.getHeaders() })
-				.success(function (data, status, headers, config) {
-					success(data);
-				}).error(function (data) {
-					error(data);
-				});
+			$http.get(serviceUrl + '/me/requests', {
+				headers: UtilsFactory.getHeaders()
+			}).success(function (data, status, headers, config) {
+				success(data);
+			}).error(function (data) {
+				error(data);
+			});
 		};
 
 		service.sendFriendRequest = function (username, success, error) {
