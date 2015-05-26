@@ -22,6 +22,10 @@
 				templateUrl: 'views/wall.html',
 				controller: 'wallController'
 			})
+			.when('/friends', {
+				templateUrl: 'views/friends.html',
+				controller: 'HomeController'
+			})
 			.when('/profile', {
 				templateUrl: 'views/user/editProfile.html',
 				controller: 'UsersController'
@@ -34,6 +38,10 @@
 	});
 
 	app.run(function ($rootScope, $location, UtilsFactory) {
+		$rootScope.isLogged = function () {
+			return UtilsFactory.isLogged();
+		};
+
 		$rootScope.$on('$locationChangeStart', function () {
 			//if ($location.path().indexOf("welcome") === -1 && !UtilsFactory.isLogged()) {
 			//	$location.path("/");

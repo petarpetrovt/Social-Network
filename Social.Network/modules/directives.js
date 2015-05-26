@@ -50,4 +50,24 @@
 			templateUrl: '../views/directives/search.html'
 		}
 	});
+
+	app.directive('menu', function () {
+		return {
+			restrict: 'EA',
+			replace: true,
+			controller: function ($scope, ProfileFactory, UtilsFactory) {
+				ProfileFactory.get(function (data) {
+					$scope.user = data;
+
+					if (!data.profileImageData)
+						$scope.user.profileImageData = '../images/avatar.gif';
+					if (!data.coverImageData)
+						$scope.user.coverImageData = '../images/cover.gif';
+
+				}, function (data) {
+				});
+			},
+			templateUrl: '../views/directives/menu.html'
+		}
+	});
 }());

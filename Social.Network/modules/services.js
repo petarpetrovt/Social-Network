@@ -49,11 +49,7 @@
 		service.getLikesPreview = function (id, success, error) {
 			$http.get(serviceUrl + '/Posts/' + id + '/likes/preview', {
 				headers: UtilsFactory.getHeaders(),
-			}).success(function (data, status, headers, config) {
-				success(data);
-			}).error(function (data) {
-				error(data);
-			});
+			}).success(success).error(error);
 		};
 
 		service.getLikes = function (id, success, error) {
@@ -128,19 +124,19 @@
 		};
 
 		service.sendFriendRequest = function (username, success, error) {
-			$http.post(serviceUrl + '/me/requests/' + username, {
+			$http.post(serviceUrl + '/me/requests/' + username, null, {
 				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		};
 
 		service.acceptFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', null, {
 				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		}
 
 		service.rejectFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=delete', {}, {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=delete', null, {
 				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		}
@@ -160,13 +156,12 @@
 
 		service.logout = function (success, error) {
 			$http.post(serviceUrl + '/users/Logout', null, {
-				headers: UtilsFactory.getHeaders(),
+				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		};
 
 		service.register = function (registerData, success, error) {
-			$http.post(serviceUrl + '/users/register', registerData)
-				.success(success).error(error);
+			$http.post(serviceUrl + '/users/register', registerData).success(success).error(error);
 		};
 
 		service.preview = function (username, success, error) {
@@ -222,7 +217,7 @@
 			$http.post(serviceUrl + '/posts/' + postId + '/comments', {
 				CommentContent: content,
 			}, {
-				headers: UtilsFactory.getHeaders(),
+				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		};
 
@@ -259,8 +254,8 @@
 		};
 
 		service.likePostComment = function (postId, commentId, success, error) {
-			$http.post(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
-				headers: UtilsFactory.getHeaders(),
+			$http.post(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', null, {
+				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		};
 
@@ -277,20 +272,17 @@
 		var service = {};
 
 		service.setCredentials = function (serverData) {
-			if (serverData) {
-				localStorage['sessionToken'] = serverData.access_token;
-				localStorage['username'] = serverData.userName;
+			localStorage['sessionToken'] = serverData.access_token;
+			localStorage['username'] = serverData.userName;
 
-				var now = Date.now();
-				now += serverData.expires_in;
+			var now = Date.now();
+			now += serverData.expires_in;
 
-				localStorage['expires'] = new Date(now);
-			}
-			else {
-				localStorage.clear();
-			}
+			localStorage['expires'] = new Date(now);
+		};
 
-			this.refresh();
+		service.clearCredentials = function () {
+			localStorage.clear();
 		};
 
 		service.setProfileImage = function (profileImage) {

@@ -3,7 +3,7 @@
 
 	var app = angular.module("app.controllers", []);
 
-	app.controller("AuthenticationController", function ($scope, UsersFactory, UtilsFactory) {
+	app.controller("AuthenticationController", function ($scope, $location, UsersFactory, UtilsFactory) {
 		$scope.fullName = '';
 		$scope.email = '';
 		$scope.username = '';
@@ -12,16 +12,18 @@
 		$scope.confirmPassword = '';
 		$scope.gender = '0';
 
-		$scope.login = function ($event) {
+		$scope.login = function () {
 			if (!$scope.username || !$scope.password)
 				return;
 
-			UsersFactory.login($scope.username, $scope.password, function (data) {
-				UtilsFactory.setCredentials(data);
-				$.notify('You have successfully logged in.', 'success');
-			}, function () {
-				$.notify('The username or password is incorrect.', 'error');
-			});
+			UsersFactory.login($scope.username, $scope.password,
+				function (data) {
+					UtilsFactory.setCredentials(data);
+					UtilsFactory.refresh();
+					$.notify('You have successfully logged in.', 'success');
+				}, function () {
+					$.notify('The username or password is incorrect.', 'error');
+				});
 		};
 
 		$scope.register = function () {
@@ -41,6 +43,7 @@
 				Gender: $scope.gender
 			}, function (data) {
 				UtilsFactory.setCredentials(data);
+				$location.path('/');
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
@@ -49,7 +52,8 @@
 
 		$scope.logout = function () {
 			UsersFactory.logout(function () {
-				UtilsFactory.setCredentials(null);
+				UtilsFactory.clearCredentials();
+				UtilsFactory.refresh();
 				$.notify('You have successfully logged out.', 'success');
 			}, function () {
 				$.notify('Error logging out.', 'error');
@@ -59,29 +63,25 @@
 
 	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, UtilsFactory) {
 		if (UtilsFactory.isLogged()) {
-			$scope.menu = 'views/partials/menu.html';
 			$scope.main = 'views/feed.html';
-
-			ProfileFactory.get(function (data) {
-				var user = data;
-
-				if (!user.profileImageData)
-					user.profileImageData = '../images/avatar.gif';
-				if (!user.coverImageData)
-					user.coverImageData = '../images/cover.gif';
-
-				$scope.user = user;
-			}, function (data) {
-			});
 
 			ProfileFactory.getNewsFeed(null, 10, function (data) {
 				$scope.feed = data;
 			}, function () {
 				console.log(data);
 			});
+
+			ProfileFactory.getFriendRequests(function (data) {
+				$scope.friendRequests = [];
+
+				data.forEach(function (element, index, array) {
+					$scope.friendRequests.push(element.user);
+				});
+			}, function (data) {
+				console.log(data);
+			});
 		}
 		else {
-			$scope.main = 'views/partials/home.html';
 			$scope.form = 'views/partials/login.html';
 			$scope.isLogin = true;
 
