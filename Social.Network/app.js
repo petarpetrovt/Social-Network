@@ -16,24 +16,31 @@
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/home.html',
-				controller: 'homeController'
+				controller: 'HomeController'
 			})
 			.when('/users/:username', {
 				templateUrl: 'views/wall.html',
 				controller: 'wallController'
 			})
 			.when('/profile', {
-				templateUrl: 'views/editProfile.html',
-				controller: 'editProfileController'
+				templateUrl: 'views/user/editProfile.html',
+				controller: 'UsersController'
 			})
 			.when('/profile/password', {
-				templateUrl: 'views/changePassword.html',
-				controller: 'editPasswordController'
+				templateUrl: 'views/user/changePassword.html',
+				controller: 'UsersController'
 			})
 			.otherwise({ redirectTo: '/' });
 	});
 
-	//app.run(function ($rootScope) {
-	//	$rootScope.showMenu = false;
-	//});
+	app.run(function ($rootScope, $location, UtilsFactory) {
+		$rootScope.$on('$locationChangeStart', function () {
+			//if ($location.path().indexOf("welcome") === -1 && !UtilsFactory.isLogged()) {
+			//	$location.path("/");
+			//}
+			//if ($location.path().indexOf("welcome") !== -1 && UtilsFactory.isLogged()) {
+			//	$location.path("/feed");
+			//}
+		});
+	});
 }());

@@ -3,56 +3,26 @@
 
 	var app = angular.module("app.controllers", []);
 
-	app.controller("homeController", function ($scope, UsersFactory, UtilsFactory) {
-		if (UtilsFactory.isLogged()) {
-			$scope.menu = 'views/forms/menu.html';
-			$scope.newsFeed = 'views/newsFeed.html';
-			return;
-		}
-
-		$scope.showTitle = true;
-		$scope.logInLink = true;
-		$scope.registerLink = false;
-		$scope.loginForm = 'views/forms/loginForm.html';
-
-		$scope.showLogin = function () {
-			$scope.loginForm = 'views/forms/loginForm.html';
-			$scope.registerForm = '';
-		};
-
-		$scope.showRegister = function () {
-			$scope.registerForm = 'views/forms/registerForm.html';
-			$scope.loginForm = '';
-		};
-	});
-
-	app.controller("loginController", function ($scope, UsersFactory, UtilsFactory) {
+	app.controller("AuthenticationController", function ($scope, UsersFactory, UtilsFactory) {
+		$scope.fullName = '';
+		$scope.email = '';
 		$scope.username = '';
 		$scope.password = '';
 		$scope.remember = '';
+		$scope.confirmPassword = '';
+		$scope.gender = '0';
 
 		$scope.login = function ($event) {
 			if (!$scope.username || !$scope.password)
 				return;
 
-			UsersFactory.login($scope.username, $scope.password,
-				function (data) {
-					UtilsFactory.setCredentials(data);
-					UtilsFactory.refresh();
-					$.notify('You have successfully logged in.', 'success');
-				}, function () {
-					$.notify('The username or password is incorrect.', 'error');
-				});
+			UsersFactory.login($scope.username, $scope.password, function (data) {
+				UtilsFactory.setCredentials(data);
+				$.notify('You have successfully logged in.', 'success');
+			}, function () {
+				$.notify('The username or password is incorrect.', 'error');
+			});
 		};
-	});
-
-	app.controller("registerController", function ($scope, UsersFactory, UtilsFactory) {
-		$scope.fullName = '';
-		$scope.email = '';
-		$scope.username = '';
-		$scope.password = '';
-		$scope.confirmPassword = '';
-		$scope.gender = '0';
 
 		$scope.register = function () {
 			if (!$scope.username
@@ -71,47 +41,60 @@
 				Gender: $scope.gender
 			}, function (data) {
 				UtilsFactory.setCredentials(data);
-				UtilsFactory.refresh();
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
 			});
 		};
+
+		$scope.logout = function () {
+			UsersFactory.logout(function () {
+				UtilsFactory.setCredentials(null);
+				$.notify('You have successfully logged out.', 'success');
+			}, function () {
+				$.notify('Error logging out.', 'error');
+			});
+		};
 	});
 
-	app.controller("menuController", function ($scope, UtilsFactory, UsersFactory, ProfileFactory) {
+	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, UtilsFactory) {
 		if (UtilsFactory.isLogged()) {
-			$scope.showMenu = true;
-			$scope.profileImage = 'images/avatar.gif';
+			$scope.menu = 'views/partials/menu.html';
+			$scope.main = 'views/newsFeed.html';
 
 			ProfileFactory.get(function (data) {
-				$scope.fullName = data.name;
-				$scope.username = data.username;
+				var user = data;
+
+				if (!user.profileImageData)
+					user.profileImageData = '../images/avatar.gif';
+				if (!user.coverImageData)
+					user.coverImageData = '../images/cover.gif';
+
+				$scope.user = user;
 			}, function (data) {
-				console.log(data);
 			});
 
-			$scope.logout = function () {
-				UsersFactory.logout(function () {
-					UtilsFactory.clearCredentials();
-					UtilsFactory.refresh();
-					$.notify('You have successfully logged out.', 'success');
-				}, function () {
-					$.notify('Error logging out.', 'error');
-				});
+			ProfileFactory.getNewsFeed(null, 10, function (data) {
+				$scope.feed = data;
+			}, function () {
+				console.log(data);
+			});
+		}
+		else {
+			$scope.main = 'views/partials/home.html';
+			$scope.form = 'views/partials/login.html';
+			$scope.isLogin = true;
+
+			$scope.showLogin = function () {
+				$scope.form = 'views/partials/login.html';
+				$scope.isLogin = true;
+			};
+
+			$scope.showRegister = function () {
+				$scope.form = 'views/partials/register.html';
+				$scope.isLogin = false;
 			};
 		}
-	});
-
-	app.controller("newsFeedController", function ($scope, ProfileFactory, UtilsFactory) {
-		if (!UtilsFactory.isLogged())
-			return;
-
-		ProfileFactory.getNewsFeed(null, 10, function (data) {
-			$scope.data = data;
-		}, function () {
-			console.log(data);
-		});
 	});
 
 	app.controller("wallController", function ($scope, $location, $routeParams, ProfileFactory, UsersFactory, UtilsFactory) {
@@ -119,7 +102,7 @@
 		if (!UtilsFactory.isLogged() || !username)
 			$location.path('/');
 
-		$scope.menu = 'views/forms/menu.html';
+		$scope.menu = 'views/partials/menu.html';
 		$scope.username = username;
 
 		UsersFactory.get(username, function (data) {
@@ -152,11 +135,8 @@
 		};
 	});
 
-	app.controller("editProfileController", function ($scope, $location, UtilsFactory, ProfileFactory) {
-		if (!UtilsFactory.isLogged())
-			$location.path('/');
-
-		$scope.menu = 'views/forms/menu.html';
+	app.controller("UsersController", function ($scope, $location, UtilsFactory, ProfileFactory) {
+		$scope.menu = 'views/partials/menu.html';
 
 		ProfileFactory.get(function (data) {
 			$scope.email = data.email;
@@ -176,29 +156,6 @@
 			console.log(data);
 		});
 
-
-		$scope.edit = function () {
-			var data = {
-				name: $scope.name,
-				email: $scope.email,
-				gender: $scope.gender
-			};
-			console.log(data);
-			ProfileFactory.update(data, function (data) {
-				$location.path('/');
-				$.notify('You have successfully edited your profile.', 'success');
-			}, function (data) {
-				console.log(data);
-			});
-		};
-	});
-
-	app.controller("editPasswordController", function ($scope, $location, UtilsFactory, ProfileFactory) {
-		if (!UtilsFactory.isLogged())
-			$location.path('/');
-
-		$scope.menu = 'views/forms/menu.html';
-
 		$scope.oldPassword = '';
 		$scope.newPassword = '';
 		$scope.conPassword = '';
@@ -217,6 +174,21 @@
 				}, function (data) {
 					console.log(data);
 				});
+		};
+
+		$scope.edit = function () {
+			var data = {
+				name: $scope.name,
+				email: $scope.email,
+				gender: $scope.gender
+			};
+			console.log(data);
+			ProfileFactory.update(data, function (data) {
+				$location.path('/');
+				$.notify('You have successfully edited your profile.', 'success');
+			}, function (data) {
+				console.log(data);
+			});
 		};
 	});
 }());
