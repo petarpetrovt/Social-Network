@@ -60,7 +60,7 @@
 	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, UtilsFactory) {
 		if (UtilsFactory.isLogged()) {
 			$scope.menu = 'views/partials/menu.html';
-			$scope.main = 'views/newsFeed.html';
+			$scope.main = 'views/feed.html';
 
 			ProfileFactory.get(function (data) {
 				var user = data;

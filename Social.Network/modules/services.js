@@ -134,7 +134,7 @@
 		};
 
 		service.acceptFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', {}, {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=approved', {
 				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		}
