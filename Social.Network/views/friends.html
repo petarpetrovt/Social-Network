@@ -1,11 +1,41 @@
 <menu />
-<div class="responsive-padding height-max">
-	<div class="row row-width-max">
-		<h4>Friends Requests</h4>
-		<div ng-repeat="user in friendRequests" class="panel panel-default custom-default">
-			<div class="panel-body">
-				{{ user.name }} - {{ user.username }}
-			</div>
+<div class="container responsive-padding">
+	<div class="row">
+		<div class="col-md-6">
+			<fieldset>
+				<legend>Friends</legend>
+				<ul class="list-group">
+					<li ng-repeat="friend in friends" class="list-group-item clearfix">
+						{{ friend.name }} - {{ friend.username }}
+						<div class="btn-group pull-right" role="group">
+							<button ng-click="remove(friend);" class="btn btn-default btn-sm">
+								<i class="glyphicon glyphicon-remove" style="color:#b91515;"></i>
+								Remove
+							</button>
+						</div>
+					</li>
+				</ul>
+			</fieldset>
+		</div>
+		<div class="col-md-6">
+			<fieldset>
+				<legend>Friends Requests</legend>
+				<ul class="list-group">
+					<li ng-repeat="request in friendRequests" class="list-group-item clearfix">
+						{{ request.user.name }} - {{ request.user.username }}
+						<div class="btn-group pull-right" role="group">
+							<button ng-click="accept(request.id, request.user.name);" class="btn btn-default btn-sm">
+								<i class="glyphicon glyphicon-ok" style="color:#15bd2b;"></i>
+								Accept
+							</button>
+							<button ng-click="reject(request.id, request.user.name);" class="btn btn-default btn-sm">
+								<i class="glyphicon glyphicon-remove" style="color:#b91515;"></i>
+								Reject
+							</button>
+						</div>
+					</li>
+				</ul>
+			</fieldset>
 		</div>
 	</div>
 </div>

@@ -19,6 +19,7 @@
 			UsersFactory.login($scope.username, $scope.password,
 				function (data) {
 					UtilsFactory.setCredentials(data);
+					$location.path('/');
 					UtilsFactory.refresh();
 					$.notify('You have successfully logged in.', 'success');
 				}, function () {
@@ -44,6 +45,7 @@
 			}, function (data) {
 				UtilsFactory.setCredentials(data);
 				$location.path('/');
+				UtilsFactory.refresh();
 				$.notify('You have successfully registered and logged in.', 'success');
 			}, function () {
 				$.notify('Registration data is incorrect.', 'error');
@@ -53,6 +55,7 @@
 		$scope.logout = function () {
 			UsersFactory.logout(function () {
 				UtilsFactory.clearCredentials();
+				$location.path('/');
 				UtilsFactory.refresh();
 				$.notify('You have successfully logged out.', 'success');
 			}, function () {
@@ -67,19 +70,49 @@
 
 			ProfileFactory.getNewsFeed(null, 10, function (data) {
 				$scope.feed = data;
+				$scope.feed.push('test');
 			}, function () {
 				console.log(data);
 			});
 
-			ProfileFactory.getFriendRequests(function (data) {
-				$scope.friendRequests = [];
-
-				data.forEach(function (element, index, array) {
-					$scope.friendRequests.push(element.user);
-				});
+			ProfileFactory.getFriends(function (data) {
+				$scope.friends = data;
 			}, function (data) {
 				console.log(data);
 			});
+
+			ProfileFactory.getFriendRequests(function (data) {
+				$scope.friendRequests = data;
+			}, function (data) {
+				console.log(data);
+			});
+
+			$scope.accept = function (id, name) {
+				ProfileFactory.acceptFriendRequest(id, function (data) {
+					$.notify('You have successfully added ' + name + ' to your friends.', 'success');
+					UtilsFactory.refresh();
+				}, function (data) {
+					console.log(data);
+				});
+			};
+
+			$scope.reject = function (id, name) {
+				ProfileFactory.rejectFriendRequest(id, function (data) {
+					$.notify('You have successfully rejected ' + name + '.', 'warning');
+					UtilsFactory.refresh();
+				}, function (data) {
+					console.log(data);
+				});
+			};
+
+			$scope.remove = function (user) {
+				ProfileFactory.removeFriend(user.username, function (data) {
+					$.notify('You have successfully removed ' + user.name + ' from your friends.', 'warning');
+					UtilsFactory.refresh();
+				}, function (data) {
+					console.log(data);
+				});
+			};
 		}
 		else {
 			$scope.form = 'views/partials/login.html';
@@ -97,12 +130,12 @@
 		}
 	});
 
-	app.controller("wallController", function ($scope, $location, $routeParams, ProfileFactory, UsersFactory, UtilsFactory) {
+	app.controller("WallController", function ($scope, $location, $routeParams, ProfileFactory, UsersFactory, UtilsFactory) {
 		var username = $routeParams.username;
-		if (!UtilsFactory.isLogged() || !username)
+		if (!username) {
 			$location.path('/');
+		}
 
-		$scope.menu = 'views/partials/menu.html';
 		$scope.username = username;
 
 		UsersFactory.get(username, function (data) {
@@ -128,7 +161,8 @@
 
 		$scope.request = function () {
 			ProfileFactory.sendFriendRequest(username, function (data) {
-				console.log(data);
+				$.notify('You have successfully sended friend request to ' + username + '.', 'success');
+				UtilsFactory.refresh();
 			}, function (data) {
 				console.log(data);
 			});
@@ -136,8 +170,6 @@
 	});
 
 	app.controller("UsersController", function ($scope, $location, UtilsFactory, ProfileFactory) {
-		$scope.menu = 'views/partials/menu.html';
-
 		ProfileFactory.get(function (data) {
 			$scope.email = data.email;
 			$scope.name = data.name;

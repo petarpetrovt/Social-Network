@@ -20,7 +20,7 @@
 			})
 			.when('/users/:username', {
 				templateUrl: 'views/wall.html',
-				controller: 'wallController'
+				controller: 'WallController'
 			})
 			.when('/friends', {
 				templateUrl: 'views/friends.html',
@@ -43,12 +43,9 @@
 		};
 
 		$rootScope.$on('$locationChangeStart', function () {
-			//if ($location.path().indexOf("welcome") === -1 && !UtilsFactory.isLogged()) {
-			//	$location.path("/");
-			//}
-			//if ($location.path().indexOf("welcome") !== -1 && UtilsFactory.isLogged()) {
-			//	$location.path("/feed");
-			//}
+			if ($location.path().length > 2 && !UtilsFactory.isLogged()) {
+				$location.path("/");
+			}
 		});
 	});
 }());

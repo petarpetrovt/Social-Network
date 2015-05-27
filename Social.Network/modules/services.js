@@ -99,6 +99,12 @@
 			}).success(success).error(error);
 		};
 
+		service.removeFriend = function (username, success, error) {
+			$http.delete(serviceUrl + '/me/friends/' + username, {
+				headers: UtilsFactory.getHeaders()
+			}).success(success).error(error);
+		}
+
 		service.getFriendsPreview = function (success, error) {
 			$http.get(serviceUrl + '/me/friends/preview', {
 				headers: UtilsFactory.getHeaders()
@@ -136,7 +142,7 @@
 		}
 
 		service.rejectFriendRequest = function (id, success, error) {
-			$http.put(serviceUrl + '/me/requests/' + id + '?status=delete', null, {
+			$http.put(serviceUrl + '/me/requests/' + id + '?status=rejected', null, {
 				headers: UtilsFactory.getHeaders()
 			}).success(success).error(error);
 		}
