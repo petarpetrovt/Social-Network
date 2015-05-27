@@ -6,6 +6,10 @@ body, html, .height-max {
 	height: 100%;
 }
 
+textarea {
+	resize: vertical !important;
+}
+
 a {
 	cursor: pointer;
 }

@@ -2,20 +2,20 @@
 	<div class="panel-heading custom-heading">
 		<h3 class="panel-title post-title">
 			<img class="post-img" src="../images/avatar.gif" />
-			{{ post.author }}
+			{{ post.author.name }}
 		</h3>
 		{{ post.date }}
 	</div>
 	<div class="panel-body">
-		{{ post.content }}
+		{{ post.postContent }}
 	</div>
 	<div class="panel-footer custom-footer">
-		<span class="num">231</span>
-		<button class="btn btn-primary btn-xs" title="Like">
+		<span class="num">{{ post.likesCount }}</span>
+		<button ng-disabled="post.liked" class="btn btn-primary btn-xs" title="Like">
 			<i class="glyphicon glyphicon-thumbs-up"></i>
 			Like
 		</button>
-		<span class="num">4</span>
+		<span class="num">{{ post.comments.length }}</span>
 		<button class="btn btn-primary btn-xs" title="Comment">
 			<i class="glyphicon glyphicon-comment"></i>
 			Comment

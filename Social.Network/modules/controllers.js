@@ -67,10 +67,10 @@
 	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, UtilsFactory) {
 		if (UtilsFactory.isLogged()) {
 			$scope.main = 'views/feed.html';
+			$scope.textModel = "";
 
 			ProfileFactory.getNewsFeed(null, 10, function (data) {
 				$scope.feed = data;
-				$scope.feed.push('test');
 			}, function () {
 				console.log(data);
 			});
@@ -86,6 +86,10 @@
 			}, function (data) {
 				console.log(data);
 			});
+
+			$scope.post = function () {
+				console.log($scope.textModel);
+			};
 
 			$scope.accept = function (id, name) {
 				ProfileFactory.acceptFriendRequest(id, function (data) {
