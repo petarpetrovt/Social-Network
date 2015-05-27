@@ -24,6 +24,7 @@
 	<script src="app.js"></script>
 </head>
 <body class="container-fluid">
+	<menu ng-if="isLogged()"></menu>
 	<div class="container-fluid height-max" ng-view>
 	</div>
 </body>

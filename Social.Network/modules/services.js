@@ -200,13 +200,13 @@
 			}).success(success).error(error);
 		};
 
-		service.getUserFrindsPreview = function (username, success, error) {
+		service.getUserFriendsPreview = function (username, success, error) {
 			$http.get(serviceUrl + '/users/' + username + 'friends/preview', {
 				headers: UtilsFactory.getHeaders(),
 			}).success(success).error(error);
 		};
 
-		service.getUserFrinds = function (username, success, error) {
+		service.getUserFriends = function (username, success, error) {
 			$http.get(serviceUrl + '/users/' + username + 'friends', {
 				headers: UtilsFactory.getHeaders(),
 			}).success(success).error(error);

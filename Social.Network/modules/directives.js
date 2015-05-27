@@ -23,6 +23,7 @@
 
 				$scope.viewPerson = function (username) {
 					$location.path('/users/' + username);
+					clear();
 				};
 
 				$scope.search = function () {
@@ -42,10 +43,14 @@
 				};
 
 				$scope.clear = function () {
+					clear();
+				};
+
+				function clear() {
 					$scope.showClear = false;
 					$scope.value = null;
 					$scope.results = null;
-				};
+				}
 			},
 			templateUrl: '../views/directives/search.html'
 		}
@@ -68,6 +73,23 @@
 				});
 			},
 			templateUrl: '../views/directives/menu.html'
+		}
+	});
+
+	app.directive('file', function () {
+		return {
+			restrict: 'E',
+			template: '<input type="file" />',
+			replace: true,
+			require: 'ngModel',
+			link: function (scope, element, attr, ctrl) {
+				var listener = function () {
+					scope.$apply(function () {
+						attr.multiple ? ctrl.$setViewValue(element[0].files) : ctrl.$setViewValue(element[0].files[0]);
+					});
+				}
+				element.bind('change', listener);
+			}
 		}
 	});
 }());

@@ -64,10 +64,11 @@
 		};
 	});
 
-	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, UtilsFactory) {
+	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, PostsFactory, UtilsFactory) {
+		$scope.textModel = "";
+
 		if (UtilsFactory.isLogged()) {
 			$scope.main = 'views/feed.html';
-			$scope.textModel = "";
 
 			ProfileFactory.getNewsFeed(null, 10, function (data) {
 				$scope.feed = data;
@@ -87,8 +88,14 @@
 				console.log(data);
 			});
 
-			$scope.post = function () {
-				console.log($scope.textModel);
+			$scope.post = function (text) {
+				if (text) {
+					PostsFactory.create(text, function (data) {
+						console.log(data);
+					}, function (data) {
+						console.log(data);
+					});
+				}
 			};
 
 			$scope.accept = function (id, name) {
@@ -142,6 +149,12 @@
 
 		$scope.username = username;
 
+		UsersFactory.getUserPosts(username, null, 10, function (data) {
+			$scope.userPosts = data;
+		}, function (data) {
+			console.log(data);
+		});
+
 		UsersFactory.get(username, function (data) {
 			if (!data.coverImageData)
 				$scope.default = 'cover-default';
@@ -179,12 +192,12 @@
 			$scope.name = data.name;
 			$scope.gender = data.gender;
 
-			if (!data.profileImageData && data.profileImageData !== null)
-				$scope.profileImage = data.profileImageData;
+			if (data.profileImageData)
+				$scope.profileImageData = data.profileImageData;
 			else
-				$scope.profileImage = '../../images/avatar.gif';
+				$scope.profileImageData = '../../images/avatar.gif';
 
-			if (!data.coverImageData && data.coverImageData !== null)
+			if (data.coverImageData)
 				$scope.coverImageData = data.coverImageData;
 			else
 				$scope.default = 'cover-default';
@@ -216,15 +229,40 @@
 			var data = {
 				name: $scope.name,
 				email: $scope.email,
-				gender: $scope.gender
+				gender: $scope.gender,
+				profileImageData: $scope.profileImageData,
+				coverImageData: $scope.coverImageData,
 			};
-			console.log(data);
+
 			ProfileFactory.update(data, function (data) {
 				$location.path('/');
+				UtilsFactory.refresh();
 				$.notify('You have successfully edited your profile.', 'success');
 			}, function (data) {
 				console.log(data);
 			});
 		};
+
+		$scope.profileImageUploaded = function (uploader) {
+			handleUploadImage(uploader.files[0], function (result) {
+				$scope.profileImageData = result;
+			});
+		};
+
+		$scope.coverImageUploaded = function (uploader) {
+			handleUploadImage(uploader.files[0], function (result) {
+				$scope.coverImageData = result;
+			});
+		};
+
+		function handleUploadImage(file, callback) {
+			var reader = new FileReader();
+
+			reader.onload = function () {
+				callback(reader.result);
+			};
+
+			reader.readAsDataURL(file);
+		}
 	});
 }());

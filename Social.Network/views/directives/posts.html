@@ -1,8 +1,10 @@
 <div ng-repeat="post in posts" class="panel panel-default custom-default">
 	<div class="panel-heading custom-heading">
 		<h3 class="panel-title post-title">
-			<img class="post-img" src="../images/avatar.gif" />
-			{{ post.author.name }}
+			<a href="#/users/{{ post.author.username }}">
+				<img class="post-img" src="../images/avatar.gif" />
+				{{ post.author.name }}
+			</a>
 		</h3>
 		{{ post.date }}
 	</div>
