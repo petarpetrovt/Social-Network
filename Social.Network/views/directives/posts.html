@@ -1,12 +1,18 @@
 <div ng-repeat="post in posts" class="panel panel-default custom-default">
 	<div class="panel-heading custom-heading">
 		<h3 class="panel-title post-title">
-			<a href="#/users/{{ post.author.username }}">
+			<a href="#/users/{{ post.author.username }}" 
+			   popover-template="../partials/popFriend.html" 
+			   popover-title="proba" 
+			   popover-trigger="mouseenter">
 				<img class="post-img" src="../images/avatar.gif" />
 				{{ post.author.name }}
 			</a>
 		</h3>
-		{{ post.date }}
+		<span ng-if="showTitle && post.author.username != post.wallOwner.username">
+		{{ post.author.name }} posted on {{post.wallOwner.name}} 's wall:<br />
+		</span>
+		{{ post.date | dateTimeFilter}}
 	</div>
 	<div class="panel-body">
 		{{ post.postContent }}

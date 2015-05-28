@@ -65,10 +65,51 @@
 	});
 
 	app.controller("HomeController", function ($scope, UsersFactory, ProfileFactory, PostsFactory, UtilsFactory) {
-		$scope.textModel = "";
+		$scope.filterFriends = {
+			value: '',
+			friends: [],
+			items: [],
+			clear: function () {
+				this.value = '';
+				this.items = this.friends;
+			},
+			search: function ($event) {
+				var value = $scope.filterFriends.value;
+				this.items = [];
+				for (var i = 0; i < this.friends.length; i++) {
+					var element = this.friends[i];
+					if (element.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+						|| element.username.toLowerCase().indexOf(value.toLowerCase()) > -1)
+						this.items.push(element);
+				}
+			},
+		};
+
+		$scope.filterFriendsRequests = {
+			value: '',
+			requests: [],
+			items: [],
+			clear: function () {
+				this.value = '';
+				this.items = this.requests;
+			},
+			search: function () {
+				var value = $scope.filterFriendsRequests.value;
+				this.items = [];
+				for (var i = 0; i < this.requests.length; i++) {
+					var element = this.requests[i];
+					if (element.user.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+						|| element.user.username.toLowerCase().indexOf(value.toLowerCase()) > -1)
+						this.items.push(element);
+				}
+			},
+		};
+
+		$scope.friendsPreview = [];
 
 		if (UtilsFactory.isLogged()) {
 			$scope.main = 'views/feed.html';
+			$scope.showTitle = true;
 
 			ProfileFactory.getNewsFeed(null, 10, function (data) {
 				$scope.feed = data;
@@ -76,27 +117,25 @@
 				console.log(data);
 			});
 
+			ProfileFactory.getFriendsPreview(function (data) {
+				$scope.friendsPreview = data;
+			}, function (data) {
+				console.log(data);
+			});
+
 			ProfileFactory.getFriends(function (data) {
-				$scope.friends = data;
+				$scope.filterFriends.items = data;
+				$scope.filterFriends.friends = data;
 			}, function (data) {
 				console.log(data);
 			});
 
 			ProfileFactory.getFriendRequests(function (data) {
-				$scope.friendRequests = data;
+				$scope.filterFriendsRequests.items = data;
+				$scope.filterFriendsRequests.requests = data;
 			}, function (data) {
 				console.log(data);
 			});
-
-			$scope.post = function (text) {
-				if (text) {
-					PostsFactory.create(text, function (data) {
-						console.log(data);
-					}, function (data) {
-						console.log(data);
-					});
-				}
-			};
 
 			$scope.accept = function (id, name) {
 				ProfileFactory.acceptFriendRequest(id, function (data) {
@@ -141,40 +180,36 @@
 		}
 	});
 
-	app.controller("WallController", function ($scope, $location, $routeParams, ProfileFactory, UsersFactory, UtilsFactory) {
+	app.controller("WallController", function ($scope, $location, $routeParams, PostsFactory, ProfileFactory, UsersFactory, UtilsFactory) {
 		var username = $routeParams.username;
 		if (!username) {
 			$location.path('/');
 		}
 
 		$scope.username = username;
+		$scope.textModel = "";
+		$scope.showTitle = false;
+		$scope.isMe = UtilsFactory.isMe(username);
 
-		UsersFactory.getUserPosts(username, null, 10, function (data) {
-			$scope.userPosts = data;
-		}, function (data) {
-			console.log(data);
-		});
+		loadPosts();
 
 		UsersFactory.get(username, function (data) {
-			if (!data.coverImageData)
-				$scope.default = 'cover-default';
-			else
-				$scope.coverImageData = data.coverImageData;
-
-			if (!data.profileImageData)
-				$scope.profileImageData = '../../images/avatar.gif';
-			else
-				$scope.profileImageData = data.profileImageData;
-
-			$scope.name = data.name;
-
-			if (UtilsFactory.isMe(username) || data.hasPendingRequest)
-				$scope.isFriend = true;
-			else
-				$scope.isFriend = data.isFriend;
+			$scope.profile = data;
+			loadFriends();
 		}, function (data) {
 			console.log(data);
 		});
+
+		$scope.post = function (text) {
+			if (text) {
+				PostsFactory.create(username, text, function (data) {
+					loadPosts();
+				}, function (data) {
+					console.log(data);
+				});
+				$scope.textModel = "";
+			}
+		};
 
 		$scope.request = function () {
 			ProfileFactory.sendFriendRequest(username, function (data) {
@@ -184,6 +219,30 @@
 				console.log(data);
 			});
 		};
+
+		function loadFriends() {
+			if ($scope.isMe) {
+				ProfileFactory.getFriendsPreview(function (data) {
+					$scope.friendsPreview = data;
+				}, function (data) {
+					console.log(data);
+				});
+			} else if ($scope.profile.isFriend) {
+				UsersFactory.getUserFriendsPreview(username, function (data) {
+					$scope.friendsPreview = data;
+				}, function (data) {
+					console.log(data);
+				});
+			}
+		}
+
+		function loadPosts() {
+			UsersFactory.getUserPosts(username, null, 10, function (data) {
+				$scope.userPosts = data;
+			}, function (data) {
+				console.log(data);
+			});
+		}
 	});
 
 	app.controller("UsersController", function ($scope, $location, UtilsFactory, ProfileFactory) {

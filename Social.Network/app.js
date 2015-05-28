@@ -6,6 +6,7 @@
 	  "app.services",
 	  "app.directives",
 	  "app.filters",
+	  "ui.bootstrap",
 	  "ngRoute",
 	  "ngResource"
 	]);
@@ -27,11 +28,11 @@
 				controller: 'HomeController'
 			})
 			.when('/profile', {
-				templateUrl: 'views/user/editProfile.html',
+				templateUrl: 'views/editProfile.html',
 				controller: 'UsersController'
 			})
 			.when('/profile/password', {
-				templateUrl: 'views/user/changePassword.html',
+				templateUrl: 'views/changePassword.html',
 				controller: 'UsersController'
 			})
 			.otherwise({ redirectTo: '/' });

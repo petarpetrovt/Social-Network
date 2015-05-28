@@ -7,10 +7,10 @@
 		var service = {};
 		var serviceUrl = baseServiceUrl;
 
-		service.create = function (content, success, error) {
+		service.create = function (username, content, success, error) {
 			$http.post(serviceUrl + '/Posts', {
 				PostContent: content,
-				Username: UtilsFactory.getUsername(),
+				Username: username,
 			}, {
 				headers: UtilsFactory.getHeaders(),
 			}).success(success).error(error);
@@ -201,7 +201,7 @@
 		};
 
 		service.getUserFriendsPreview = function (username, success, error) {
-			$http.get(serviceUrl + '/users/' + username + 'friends/preview', {
+			$http.get(serviceUrl + '/users/' + username + '/friends/preview', {
 				headers: UtilsFactory.getHeaders(),
 			}).success(success).error(error);
 		};

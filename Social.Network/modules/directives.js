@@ -14,6 +14,17 @@
 		}
 	});
 
+	app.directive('friends', function () {
+		return {
+			restrict: 'EA',
+			replace: true,
+			scope: {
+				data: '=',
+			},
+			templateUrl: '../views/directives/friendsPreview.html'
+		}
+	});
+
 	app.directive('search', function () {
 		return {
 			restrict: 'EA',

@@ -24,6 +24,10 @@ h1.title {
 	color: #029f5b !important;
 }
 
+.btn {
+	line-height: 1.44857143 !important;
+}
+
 .main-menu {
 	background-color: #029f5b;
 	color: white !important;
@@ -257,14 +261,23 @@ ul.nav > li:nth-child(2n+1) > a {
 		display: inline-block;
 		margin: 0px;
 		border: 0px;
-		width: 25%;
+		position:relative;
+		width: 33.3333333333333333333333333333333333333333333333%;
 	}
 
-		.friends-list > li > img {
+		.friends-list > li > a > img {
 			width: 100%;
 			height: 100%;
 			padding: 0px;
 			margin: 0px;
+		}
+
+		.friends-list > li > a > span {
+			position: absolute;
+			bottom: 0px;
+			color: #000;
+			width: 100%;
+			background-color: rgba(184, 184, 184, 0.41);
 		}
 
 .post {
@@ -294,14 +307,7 @@ ul.nav > li:nth-child(2n+1) > a {
 }
 
 .cover-default {
-	background: rgb(255,255,255); /* Old browsers */
-	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(192,221,226,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(192,221,226,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(192,221,226,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(192,221,226,1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(192,221,226,1) 100%); /* IE10+ */
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(192,221,226,1) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c0dde2',GradientType=0 ); /* IE6-9 */
+	background-color: #ffffff;
 	height: 200px;
 }
 
