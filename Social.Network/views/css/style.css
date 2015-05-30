@@ -316,16 +316,22 @@ ul.nav > li:nth-child(2n+1) > a {
 }
 
 .cover-image {
-	width: auto;
-	height: auto;
-	max-height: 200px;
-	padding: 0px;
-	margin: 0 auto;
+	position: absolute;
+	left: -100%;
+	right: -100%;
+	top: -100%;
+	bottom: -100%;
+	margin: auto;
+	min-height: 100%;
+	min-width: 100%;
 }
 
 .cover-default {
-	background-color: #ffffff;
 	height: 200px;
+	overflow: hidden;
+	margin: 10px;
+	position: relative;
+	background-color: #ffffff;
 }
 
 .cover-profileImage {
