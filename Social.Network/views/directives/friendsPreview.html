@@ -3,7 +3,7 @@
 		<li ng-repeat="friend in data.slice(0, 3)" title="{{friend.name}}">
 			<a href="#/users/{{friend.username}}">
 				<img ng-src="{{friend.profileImageData | profileImageFilter}}" />
-				<span>{{friend.name | formatName}}</span>
+				<span>{{friend.name | formatNameFilter}}</span>
 			</a>
 		</li>
 	</ul>
@@ -11,7 +11,7 @@
 		<li ng-repeat="friend in data.slice(3, 6)" title="{{friend.name}}">
 			<a href="#/users/{{friend.username}}">
 				<img ng-src="{{friend.profileImageData | profileImageFilter}}" />
-				<span>{{friend.name | formatName}}</span>
+				<span>{{friend.name | formatNameFilter}}</span>
 			</a>
 		</li>
 	</ul>

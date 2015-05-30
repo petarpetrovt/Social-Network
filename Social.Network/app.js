@@ -3,12 +3,13 @@
 
 	var app = angular.module('SocialNetwork', [
 	  "app.controllers",
-	  "app.services",
+	  "app.factories",
 	  "app.directives",
 	  "app.filters",
-	  "ui.bootstrap",
 	  "ngRoute",
-	  "ngResource"
+	  "ngResource",
+	  "ui.bootstrap",
+	  "infinite-scroll"
 	]);
 
 	app.constant('baseServiceUrl', 'http://softuni-social-network.azurewebsites.net/api');
@@ -38,9 +39,21 @@
 			.otherwise({ redirectTo: '/' });
 	});
 
-	app.run(function ($rootScope, $location, UtilsFactory) {
+	app.run(function ($rootScope, $routeParams, $location, UtilsFactory) {
 		$rootScope.isLogged = function () {
 			return UtilsFactory.isLogged();
+		};
+
+		$rootScope.isMe = function (username) {
+			return UtilsFactory.isMe(username);
+		};
+
+		$rootScope.isMyWall = function () {
+			if ($routeParams.username) {
+				return UtilsFactory.isMe($routeParams.username);
+			}
+			else
+				return false;
 		};
 
 		$rootScope.$on('$locationChangeStart', function () {

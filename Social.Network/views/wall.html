@@ -12,9 +12,9 @@
 	</div>
 	<div class="row height-max">
 		<div class="col-md-8 col-sm-8">
-			<div class="col-md-12 height-max header-title">
+			<div infinite-scroll="loadMorePosts();" class="col-md-12 height-max header-title" style="padding-bottom: 20px;">
 				<h3>User wall</h3>
-				<form class="form-horizontal" ng-if="profile.isFriend">
+				<form class="form-horizontal" ng-if="profile.isFriend || isMe">
 					<div class="form-group">
 						<div class="col-sm-2">
 							<h4>Submit a post</h4>

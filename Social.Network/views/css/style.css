@@ -10,6 +10,12 @@ textarea {
 	resize: vertical !important;
 }
 
+.badge {
+	background-color: #fff !important;
+	color: #000 !important;
+	border-radius: 10px !important;
+}
+
 a {
 	cursor: pointer;
 }
@@ -186,6 +192,11 @@ nav.navbar .navbar-brand {
 	color: #029f5b;
 }
 
+.post-comment {
+	width: 95%;
+	margin-bottom: 2px;
+}
+
 ul.nav > li:nth-child(2n+1) {
 	background-color: #ffffff;
 }
@@ -193,17 +204,17 @@ ul.nav > li:nth-child(2n+1) {
 .custom-heading {
 	border: none !important;
 	background-color: #ffffff !important;
-	border-bottom: 2px solid #029f5b !important;
+	padding-bottom: 0px !important;
 }
 
 .custom-footer {
 	border: none !important;
-	border-top: 2px solid #029f5b !important;
 	background-color: #ffffff !important;
 }
 
 .custom-default {
-	color: #000000 !important;
+	color: #4C4444 !important;
+	margin-bottom: 2px;
 }
 
 ul.nav > li > a {
@@ -261,7 +272,7 @@ ul.nav > li:nth-child(2n+1) > a {
 		display: inline-block;
 		margin: 0px;
 		border: 0px;
-		position:relative;
+		position: relative;
 		width: 33.3333333333333333333333333333333333333333333333%;
 	}
 
@@ -283,6 +294,12 @@ ul.nav > li:nth-child(2n+1) > a {
 .post {
 	background-color: #ffffff;
 	color: #000000;
+}
+
+.post-content {
+	padding: 0px 15px 0px 15px;
+	font-size: 16px;
+	font-family: 'Verdana, Geneva, sans-serif';
 }
 
 .glyphicon {
@@ -329,6 +346,14 @@ ul.nav > li:nth-child(2n+1) > a {
 	position: absolute;
 	left: 187px;
 	top: 39px;
+}
+
+.posts-wrapper {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	margin-top: 10px;
 }
 
 /*.row-width-max > div {

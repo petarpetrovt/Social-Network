@@ -26,10 +26,10 @@
 					<a href="#/">Feed</a>
 				</li>
 				<li>
-					<a href="#/messages">Messages</a>
-				</li>
-				<li>
-					<a href="#/friends">Friends</a>
+					<a href="#/friends">
+						Friends
+						<span ng-if="requestsCount > 0" class="badge">{{requestsCount}}</span>
+					</a>
 				</li>
 				<li>
 					<a id="dropdownMenu1" data-toggle="dropdown" data-hover="dropdown"

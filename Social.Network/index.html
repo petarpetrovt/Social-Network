@@ -3,12 +3,13 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=egde" />
-	<title>AngularJS App</title>
+	<title>Social Network</title>
 
 	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 	<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="views/css/style.css" rel="stylesheet" />
 
+	<!--Loading libs-->
 	<script src="libs/jquery-1.11.3.min.js"></script>
 	<script src="libs/notify.min.js"></script>
 	<script src="libs/bootstrap/js/bootstrap.min.js"></script>
@@ -17,11 +18,37 @@
 	<script src="libs/angular/angular-resource.min.js"></script>
 	<script src="libs/angular/angular-sanitize.min.js"></script>
 	<script src="libs/angular/ui-bootstrap-tpls-0.13.0.min.js"></script>
+	<script src="libs/angular/ng-infinite-scroll.min.js"></script>
 
-	<script src="modules/services.js"></script>
-	<script src="modules/directives.js"></script>
-	<script src="modules/filters.js"></script>
-	<script src="modules/controllers.js"></script>
+	<!--Initialising modules-->
+	<script src="modules/modules.js"></script>
+
+	<!--Loading filters-->
+	<script src="modules/filters/dateTimeFilter.js"></script>
+	<script src="modules/filters/formatNameFilter.js"></script>
+	<script src="modules/filters/profileImageFilter.js"></script>
+
+	<!--Loading factories-->
+	<script src="modules/factories/commentsFactory.js"></script>
+	<script src="modules/factories/postsFactory.js"></script>
+	<script src="modules/factories/profileFactory.js"></script>
+	<script src="modules/factories/usersFactory.js"></script>
+	<script src="modules/factories/utilsFactory.js"></script>
+
+	<!--Loading directives-->
+	<script src="modules/directives/file.js"></script>
+	<script src="modules/directives/friends.js"></script>
+	<script src="modules/directives/menu.js"></script>
+	<script src="modules/directives/posts.js"></script>
+	<script src="modules/directives/search.js"></script>
+
+	<!--Loading controllers-->
+	<script src="modules/controllers/authenticationController.js"></script>
+	<script src="modules/controllers/homeController.js"></script>
+	<script src="modules/controllers/usersController.js"></script>
+	<script src="modules/controllers/wallController.js"></script>
+
+	<!--Loading main app-->
 	<script src="app.js"></script>
 </head>
 <body class="container-fluid">

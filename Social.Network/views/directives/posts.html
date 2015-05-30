@@ -1,32 +1,129 @@
-<div ng-repeat="post in posts" class="panel panel-default custom-default">
-	<div class="panel-heading custom-heading">
-		<h3 class="panel-title post-title">
-			<a href="#/users/{{ post.author.username }}" 
-			   popover-template="../partials/popFriend.html" 
-			   popover-title="proba" 
-			   popover-trigger="mouseenter">
-				<img class="post-img" src="../images/avatar.gif" />
-				{{ post.author.name }}
+<div ng-repeat="post in posts" class="posts-wrapper clearfix">
+	<div class="panel panel-default custom-default">
+		<div class="panel-heading custom-heading">
+			<h3 class="panel-title post-title">
+				<!--<a href="#/users/{{ post.author.username }}"
+				   popover-template="../partials/popFriend.html"
+				   popover-title="proba"
+				   popover-trigger="mouseenter">
+					<img class="post-img" src="../images/avatar.gif" />
+					{{ post.author.name }}
+				</a>-->
+				<a href="#/users/{{ post.author.username }}">
+					<img class="post-img" ng-src="{{post.author.profileImageData | profileImageFilter}}" />
+					{{ post.author.name }}
+				</a>
+			</h3>
+			<span class="help-block" style="font-size:10px;">
+				<span ng-if="showTitle && post.author.username != post.wallOwner.username">
+					{{ post.author.name }} posted on {{post.wallOwner.name}} 's wall.<br />
+				</span>
+				{{ post.date | dateTimeFilter}}
+			</span>
+		</div>
+		<div class="panel-body post-content">
+			{{ post.postContent }}
+		</div>
+		<div class="panel-footer custom-footer clearfix" style="line-height:16px;vertical-align:middle;">
+			<div class="pull-left" style="font-size:10px;">
+				<span ng-switch on="post.liked">
+					<a ng-switch-when="true" ng-click="$parent.$parent.unlikePost(post.id);">
+						Unlike
+					</a>
+					<a ng-switch-default ng-click="$parent.$parent.likePost(post.id);">
+						Like
+					</a>
+				</span>
+				<a ng-click="$parent.toggle(post.id);">
+					Comment
+				</a>
+			</div>
+			&nbsp;
+			<span class="num">
+				{{ post.likesCount }}
+				<i class="glyphicon glyphicon-thumbs-up" style="color:#0094ff;"></i>
+			</span>
+			<span class="num">
+				{{ post.totalCommentsCount }}
+				<i class="glyphicon glyphicon-comment" style="color:#0094ff;"></i>
+			</span>
+			<span class="pull-right" ng-if="$root.isMe(post.author.username) || $root.isMyWall()">
+				<a ng-click="$parent.$parent.deletePost(post.id);" title="Remove">
+					<i class="glyphicon glyphicon-remove" style="color:#c40202;"></i>
+				</a>
+				<a ng-click="$parent.$parent.editPost(post.id);" title="Edit">
+					<i class="glyphicon glyphicon-edit" style="color:#000;"></i>
+				</a>
+			</span>
+			<div id="comment_{{post.id}}" style="display:none;margin-top:5px;">
+				<input ng-keyup="$event.keyCode == 13 && $parent.postComment(post.id);"
+					   ng-model="$parent.comment"
+					   type="text"
+					   class="form-control"
+					   placeholder="Write a comment..." />
+			</div>
+			<div id="post_{{post.id}}" style="display:none;margin-top:5px;">
+				<div class="input-group">
+					<input ng-model="$parent.postContent"
+						   type="text"
+						   class="form-control" />
+					<div class="input-group-btn">
+						<button class="btn btn-primary" ng-click="$parent.updatePost(post.id);">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-repeat="comment in post.comments" class="panel panel-default custom-default post-comment pull-right">
+		<div class="panel-heading custom-heading clearfix">
+			<a href="#/users/{{ comment.author.username }}">
+				<img class="post-img" ng-src="{{comment.author.profileImageData | profileImageFilter}}" />
+				{{ comment.author.name }}
 			</a>
-		</h3>
-		<span ng-if="showTitle && post.author.username != post.wallOwner.username">
-		{{ post.author.name }} posted on {{post.wallOwner.name}} 's wall:<br />
-		</span>
-		{{ post.date | dateTimeFilter}}
+			<span class="help-block pull-right" style="font-size:10px;display:inline-block;">
+				{{ comment.date | dateTimeFilter}}
+			</span>
+		</div>
+		<div class="panel-body" style="font-size:13px !important;padding-top:10px;">
+			{{comment.commentContent}}
+		</div>
+		<div class="panel-footer custom-footer clearfix">
+			<span ng-switch on="comment.liked" style="font-size:10px;">
+				<a ng-switch-when="true" ng-click="$parent.$parent.$parent.unlikeComment(post.id, comment.id);">
+					Unlike
+				</a>
+				<a ng-switch-default ng-click="$parent.$parent.$parent.likeComment(post.id, comment.id);">
+					Like
+				</a>
+			</span>
+			&nbsp;
+			<span class="num">
+				{{ comment.likesCount }}
+				<i class="glyphicon glyphicon-thumbs-up" style="color:#0094ff;"></i>
+			</span>
+			<span class="pull-right" ng-if="$root.isMe(comment.author.username) || $root.isMe(post.author.username);">
+				<a ng-click="$parent.$parent.$parent.deleteComment(post.id, comment.id);" title="Remove">
+					<i class="glyphicon glyphicon-remove" style="color:#c40202;"></i>
+				</a>
+				<a ng-if="$root.isMe(comment.author.username);" ng-click="$parent.$parent.$parent.$parent.editComment(post.id, comment.id);" title="Edit">
+					<i class="glyphicon glyphicon-edit" style="color:#000;"></i>
+				</a>
+			</span>
+			<div id="commentEdit_{{post.id}}_{{comment.id}}" style="display:none;margin-top:5px;">
+				<div class="input-group">
+					<input ng-model="$parent.$parent.commentEdit"
+						   type="text"
+						   class="form-control" />
+					<div class="input-group-btn">
+						<button class="btn btn-primary" ng-click="$parent.$parent.updateComment(post.id, comment.id);">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="panel-body">
-		{{ post.postContent }}
-	</div>
-	<div class="panel-footer custom-footer">
-		<span class="num">{{ post.likesCount }}</span>
-		<button ng-disabled="post.liked" class="btn btn-primary btn-xs" title="Like">
-			<i class="glyphicon glyphicon-thumbs-up"></i>
-			Like
-		</button>
-		<span class="num">{{ post.comments.length }}</span>
-		<button class="btn btn-primary btn-xs" title="Comment">
-			<i class="glyphicon glyphicon-comment"></i>
-			Comment
-		</button>
+	<div ng-if="post.totalCommentsCount > 3 && post.comments.length != post.totalCommentsCount" class="panel panel-default custom-default post-comment pull-right">
+		<div class="panel-body clearfix" style="padding:0px 15px 0px 15px;">
+			<a ng-click="$parent.$parent.showAll(post.id);" class="pull-right">Show all comments</a>
+		</div>
 	</div>
 </div>

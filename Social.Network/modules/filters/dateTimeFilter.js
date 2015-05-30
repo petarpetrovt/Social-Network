@@ -1,21 +1,7 @@
 (function () {
 	"use strict";
 
-	var app = angular.module("app.filters", []);
-
-	app.filter('profileImageFilter', function () {
-		return function (input) {
-			return input === null ? '../../images/avatar.gif' : input;
-		};
-	});
-
-	app.filter('formatName', function () {
-		return function (input) {
-			return input.length > 15 ? input.substring(0, 15).trim() + '...' : input.trim();
-		};
-	});
-
-	app.filter('dateTimeFilter', function () {
+	angular.module("app.filters").filter('dateTimeFilter', function () {
 		return function (input) {
 			var now = new Date();
 			var postDate = new Date(input);
