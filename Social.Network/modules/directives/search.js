@@ -39,7 +39,7 @@
 					$scope.results = null;
 				}
 			},
-			templateUrl: '../views/directives/search.html'
+			templateUrl: 'views/directives/search.html'
 		}
 	});
 }());

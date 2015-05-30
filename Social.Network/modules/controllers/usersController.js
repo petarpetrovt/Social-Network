@@ -6,16 +6,8 @@
 			$scope.email = data.email;
 			$scope.name = data.name;
 			$scope.gender = data.gender;
-
-			if (data.profileImageData)
-				$scope.profileImageData = data.profileImageData;
-			else
-				$scope.profileImageData = '../../images/avatar.gif';
-
-			if (data.coverImageData)
-				$scope.coverImageData = data.coverImageData;
-			else
-				$scope.default = 'cover-default';
+			$scope.profileImageData = data.profileImageData;
+			$scope.coverImageData = data.coverImageData;
 		}, function (data) {
 			console.log(data);
 		});

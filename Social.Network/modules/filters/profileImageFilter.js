@@ -3,7 +3,7 @@
 
 	angular.module("app.filters").filter('profileImageFilter', function () {
 		return function (input) {
-			return input === null ? '../../images/avatar.gif' : input;
+			return input === null ? 'images/avatar.gif' : input;
 		};
 	});
 }());

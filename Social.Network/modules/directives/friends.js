@@ -8,7 +8,7 @@
 			scope: {
 				data: '=',
 			},
-			templateUrl: '../views/directives/friendsPreview.html'
+			templateUrl: 'views/directives/friendsPreview.html'
 		}
 	});
 }());

@@ -14,7 +14,7 @@
 		</div>
 		<div class="output col-sm-12 col-md-12" ng-show="results != null">
 			<p ng-repeat="found in results" ng-click="viewPerson(found.username);" class="option">
-				<img ng-src="{{ found.profileImageData ? found.profileImageData : '../../../images/avatar.gif' }}" class="profileImage"
+				<img ng-src="{{ found.profileImageData | profileImageFilter }}" class="profileImage"
 					 title="fullName" alt="Profile image." />
 				{{ found.name }}
 			</p>

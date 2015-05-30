@@ -12,9 +12,9 @@
 					$scope.user = data;
 
 					if (!data.profileImageData)
-						$scope.user.profileImageData = '../images/avatar.gif';
+						$scope.user.profileImageData = 'images/avatar.gif';
 					if (!data.coverImageData)
-						$scope.user.coverImageData = '../images/cover.gif';
+						$scope.user.coverImageData = 'images/cover.gif';
 
 				}, function (data) {
 				});
@@ -25,7 +25,7 @@
 					console.log(data);
 				});
 			},
-			templateUrl: '../views/directives/menu.html'
+			templateUrl: 'views/directives/menu.html'
 		}
 	});
 }());

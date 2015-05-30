@@ -8,7 +8,7 @@
 			scope: {
 				posts: '=',
 			},
-			templateUrl: '../views/directives/posts.html',
+			templateUrl: 'views/directives/posts.html',
 			controller: function ($scope, PostsFactory, CommentsFactory) {
 				$scope.toggle = function (id) {
 					cleanComments(id);

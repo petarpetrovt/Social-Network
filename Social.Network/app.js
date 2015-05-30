@@ -7,7 +7,6 @@
 	  "app.directives",
 	  "app.filters",
 	  "ngRoute",
-	  "ngResource",
 	  "ui.bootstrap",
 	  "infinite-scroll"
 	]);

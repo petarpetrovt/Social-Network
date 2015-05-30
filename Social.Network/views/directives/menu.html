@@ -11,7 +11,7 @@
 			<a class="navbar-brand" href="#/users/{{ user.username }}">
 				<div class="row row-filter">
 					<div class="col-md-12">
-						<image ng-src="{{ user.profileImageData }}" class="profileImage"
+						<image ng-src="{{ user.profileImageData | profileImageFilter }}" class="profileImage"
 							   title="{{ user.name }}" alt="Profile image." />
 						<p style="float:right;">
 							{{ user.username }}

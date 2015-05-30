@@ -2,13 +2,6 @@
 	<div class="panel panel-default custom-default">
 		<div class="panel-heading custom-heading">
 			<h3 class="panel-title post-title">
-				<!--<a href="#/users/{{ post.author.username }}"
-				   popover-template="../partials/popFriend.html"
-				   popover-title="proba"
-				   popover-trigger="mouseenter">
-					<img class="post-img" src="../images/avatar.gif" />
-					{{ post.author.name }}
-				</a>-->
 				<a href="#/users/{{ post.author.username }}">
 					<img class="post-img" ng-src="{{post.author.profileImageData | profileImageFilter}}" />
 					{{ post.author.name }}
