@@ -2,12 +2,16 @@
 	"use strict";
 
 	angular.module("app.controllers").controller("UsersController", function ($scope, $location, UtilsFactory, ProfileFactory) {
+		$scope.data = {
+			name: '',
+			email: '',
+			gender: '',
+			profileImageData: '',
+			coverImageData: '',
+		};
+
 		ProfileFactory.get(function (data) {
-			$scope.email = data.email;
-			$scope.name = data.name;
-			$scope.gender = data.gender;
-			$scope.profileImageData = data.profileImageData;
-			$scope.coverImageData = data.coverImageData;
+			$scope.data = data;
 		}, function (data) {
 			console.log(data);
 		});
@@ -34,11 +38,11 @@
 
 		$scope.edit = function () {
 			var data = {
-				name: $scope.name,
-				email: $scope.email,
-				gender: $scope.gender,
-				profileImageData: $scope.profileImageData,
-				coverImageData: $scope.coverImageData,
+				name: $scope.data.name,
+				email: $scope.data.email,
+				gender: $scope.data.gender,
+				profileImageData: $scope.data.profileImageData,
+				coverImageData: $scope.data.coverImageData,
 			};
 
 			ProfileFactory.update(data, function (data) {
@@ -52,13 +56,13 @@
 
 		$scope.profileImageUploaded = function (uploader) {
 			handleUploadImage(uploader.files[0], function (result) {
-				$scope.profileImageData = result;
+				$scope.data.profileImageData = result;
 			});
 		};
 
 		$scope.coverImageUploaded = function (uploader) {
 			handleUploadImage(uploader.files[0], function (result) {
-				$scope.coverImageData = result;
+				$scope.data.coverImageData = result;
 			});
 		};
 

@@ -1,9 +1,9 @@
 <div class="responsive-padding row">
 	<div class="col-md-2">
-		<image src="{{ profileImageData | profileImageFilter }}" style="width:128px;height:128px;" title="fullName" alt="Profile image." />
+		<img ng-src="{{ data.profileImageData | profileImageFilter }}" style="width:128px;height:128px;" title="fullName" alt="Profile image." />
 		<br />
 		<br />
-		<file ng-model="profileImageModel"
+		<file ng-model="data.profileImageModel"
 			  accept="image/png,image/jpg,image/jpeg"
 			  onchange="angular.element(this).scope().profileImageUploaded(this)" />
 		<p class="help-block">
@@ -18,19 +18,19 @@
 				<button type="button" class="btn btn-primary" ng-click="edit();">Save</button>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Name" ng-model="name">
+				<input type="text" class="form-control" placeholder="Name" ng-model="data.name">
 			</div>
 			<div class="form-group">
-				<input type="email" class="form-control" placeholder="Email" ng-model="email">
+				<input type="email" class="form-control" placeholder="Email" ng-model="data.email">
 			</div>
 			<div class="form-group">
-				<input type="radio" name="gender" ng-model="gender" ng-value="1" /> Male &nbsp;
-				<input type="radio" name="gender" ng-model="gender" ng-value="2" /> Female &nbsp;
-				<input type="radio" name="gender" ng-model="gender" ng-value="0" /> Other &nbsp;
+				<input type="radio" name="gender" ng-model="data.gender" ng-value="1" /> Male &nbsp;
+				<input type="radio" name="gender" ng-model="data.gender" ng-value="2" /> Female &nbsp;
+				<input type="radio" name="gender" ng-model="data.gender" ng-value="0" /> Other &nbsp;
 			</div>
 			<div class="form-group">
 				<div class="col-md-4">
-					<file ng-model="coverImageModel"
+					<file ng-model="data.coverImageModel"
 						  accept="image/png,image/jpg,image/jpeg"
 						  onchange="angular.element(this).scope().coverImageUploaded(this)" />
 					<p class="help-block">
@@ -39,7 +39,7 @@
 					</p>
 				</div>
 				<div class="col-md-8 {{ default }}">
-					<img src="{{ coverImageData }}" style="width:100%;" />
+					<img ng-src="{{ data.coverImageData }}" style="width:100%;" />
 				</div>
 			</div>
 		</form>
