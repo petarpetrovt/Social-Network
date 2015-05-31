@@ -30,8 +30,15 @@
 				|| !$scope.password
 				|| !$scope.email
 				|| !$scope.fullName
-				|| !$scope.gender)
+				|| !$scope.gender) {
+				$.notify('All fileds must be filled.', 'error');
 				return;
+			}
+
+			if ($scope.password !== $scope.confirmPassword) {
+				$.notify('The new password must be the same as confirmation password!', 'error');
+				return;
+			}
 
 			UsersFactory.register({
 				Username: $scope.username,

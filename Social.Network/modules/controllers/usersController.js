@@ -23,8 +23,15 @@
 		$scope.changePassword = function () {
 			if (!$scope.oldPassword
 				|| !$scope.newPassword
-				|| !$scope.conPassword)
+				|| !$scope.conPassword) {
+				$.notify('All fileds must be filled.', 'error');
 				return;
+			}
+
+			if ($scope.newPassword !== $scope.conPassword) {
+				$.notify('The new password must be the same as confirmation password!', 'error');
+				return;
+			}
 
 			ProfileFactory.changePassword($scope.oldPassword, $scope.newPassword,
 				$scope.conPassword, function (data) {
