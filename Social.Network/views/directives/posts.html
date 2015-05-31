@@ -40,12 +40,14 @@
 				{{ post.totalCommentsCount }}
 				<i class="glyphicon glyphicon-comment" style="color:#0094ff;"></i>
 			</span>
-			<span class="pull-right" ng-if="$root.isMyWall()">
-				<a ng-click="$parent.$parent.deletePost(post.id);" title="Remove">
-					<i class="glyphicon glyphicon-remove" style="color:#c40202;"></i>
-				</a>
+			<span class="pull-right">
+				<span ng-if="$root.isMyWall() || $root.isMe(post.author.username)">
+					<a ng-click="$parent.$parent.deletePost(post.id);" title="Remove">
+						<i class="glyphicon glyphicon-remove" style="color:#c40202;"></i>
+					</a>
+				</span>
 				<span ng-if="$root.isMe(post.author.username)">
-					<a ng-click="$parent.$parent.$parent.editPost(post.id);" title="Edit">
+					<a ng-click="$parent.$parent.editPost(post.id);" title="Edit">
 						<i class="glyphicon glyphicon-edit" style="color:#000;"></i>
 					</a>
 				</span>
