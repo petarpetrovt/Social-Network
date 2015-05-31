@@ -9,8 +9,8 @@
 				$scope.value = null;
 
 				$scope.viewPerson = function (username) {
-					$location.path('/users/' + username);
 					clear();
+					$location.path('/users/' + username);
 				};
 
 				$scope.search = function () {

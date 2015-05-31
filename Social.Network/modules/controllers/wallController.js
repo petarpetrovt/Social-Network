@@ -9,12 +9,14 @@
 			$location.path('/');
 		}
 
+		$scope.profile = {};
 		$scope.username = username;
 		$scope.textModel = "";
 		$scope.showTitle = false;
 		$scope.isMe = UtilsFactory.isMe(username);
 		$scope.isWall = true;
 		$scope.lastLoadedId = null;
+		$scope.userPosts = [];
 
 		loadPosts();
 
@@ -39,7 +41,8 @@
 		$scope.request = function () {
 			ProfileFactory.sendFriendRequest(username, function (data) {
 				$.notify('You have successfully sended friend request to ' + username + '.', 'success');
-				UtilsFactory.refresh();
+				//UtilsFactory.refresh();
+				$scope.profile.hasPendingRequest = true;
 			}, function (data) {
 				console.log(data);
 			});
